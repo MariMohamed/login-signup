@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_colors.dart';
-import 'package:login_signin/core/app_Validator.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/presentation/widget/app_textfield.dart';

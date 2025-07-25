@@ -15,6 +15,7 @@ class AppTextField extends StatelessWidget {
     this.obscureText,
     this.width,
     this.height,
+    this.autoValidate,
   });
   final Function(String?) onSaved;
   final FormFieldValidator<String>? validator;
@@ -27,13 +28,16 @@ class AppTextField extends StatelessWidget {
   final bool? obscureText;
   final double? width;
   final double? height;
+  final AutovalidateMode? autoValidate;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: height ?? 50,
       width: width ?? double.infinity,
       child: TextFormField(
+        textAlign: TextAlign.left,
         onSaved: onSaved,
+        autovalidateMode: autoValidate,
         decoration: InputDecoration(
           hintText: hint,
           suffixIcon: suffixIcon,
