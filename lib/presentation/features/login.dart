@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signin/core/app_Validator.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
@@ -20,6 +21,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   String? _password;
   String? _email;
+  bool _stayLoggedIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +33,13 @@ class _LogInState extends State<LogIn> {
             submitMessage: AppStrings.login,
             onSubmit: () {
               print(
-                "login success \nE_mail is $_email\nPassword is $_password",
+                "login success \nE_mail is $_email\nPassword is $_password\nStay logged in : $_stayLoggedIn",
               ); //Debug
               AppRouter.push(context, Routes.home);
             },
             children: [
               AppTextField(
-                validator: (value) {
-                  if (value!.isEmpty ||
-                      !RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                      ).hasMatch(value)) {
-                    return 'Enter a valid email!';
-                  }
-                  return null;
-                },
+                validator: Appvalidator.EmailValidator,
                 onSaved: (value) {
                   _email = value;
                 },
@@ -58,6 +52,19 @@ class _LogInState extends State<LogIn> {
                 onSaved: (value) {
                   _password = value;
                 },
+              ),
+              Row(
+                children: [
+                  Checkbox(
+                    value: _stayLoggedIn,
+                    onChanged: (v) {
+                      setState(() {
+                        _stayLoggedIn = !_stayLoggedIn;
+                      });
+                    },
+                  ),
+                  Text("Stay Logged in"),
+                ],
               ),
             ],
           ),

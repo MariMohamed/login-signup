@@ -46,7 +46,7 @@ class AppTextField extends StatelessWidget {
         ),
         validator: validator ?? Appvalidator.defaultRequiredValidator,
         //
-        style: style ?? TextStyle(fontSize: 14, color: AppColors.black),
+        style: style ?? TextStyle(fontSize: 14),
         keyboardType: keyboardType ?? TextInputType.text,
         readOnly: isReadOnly ?? false,
         obscureText: obscureText ?? false,

@@ -10,4 +10,5 @@ class AppStrings {
   static const String lastName = "Last Name";
   static const String confirmPassword = "Confirm Password";
   static const String phoneNumber = "Phone Number";
+  static const String logOut = "LogOut";
 }

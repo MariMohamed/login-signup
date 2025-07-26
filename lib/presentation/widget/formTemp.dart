@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/presentation/widget/appbutton.dart';
 
 class FormTemplate extends StatelessWidget {
