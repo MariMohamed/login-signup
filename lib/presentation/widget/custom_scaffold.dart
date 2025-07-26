@@ -19,6 +19,7 @@ class CustomScaffold extends StatelessWidget {
           ),
         ],
         automaticallyImplyLeading: false,
+        notificationPredicate: (_) => false,
       ),
       body: body,
     );
