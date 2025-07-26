@@ -23,6 +23,9 @@ class _LogInState extends State<LogIn> {
   String? _email;
   bool _stayLoggedIn = false;
 
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -39,18 +42,20 @@ class _LogInState extends State<LogIn> {
             },
             children: [
               AppTextField(
+                controller: _emailController,
                 validator: Appvalidator.EmailValidator,
                 onSaved: (value) {
-                  _email = value;
+                  _email = _emailController.text;
                 },
                 hint: AppStrings.emailAddress,
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: Icon(Icons.email_rounded),
               ),
               PasswordTextfield(
+                passwordController: _passwordController,
                 text: AppStrings.password,
                 onSaved: (value) {
-                  _password = value;
+                  _password = _passwordController.text;
                 },
               ),
               Row(

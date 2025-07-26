@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_Validator.dart';
-import 'package:login_signin/core/app_colors.dart';
 
 class AppTextField extends StatelessWidget {
   const AppTextField({
@@ -17,6 +16,7 @@ class AppTextField extends StatelessWidget {
     this.width,
     this.height,
     this.autoValidate,
+    this.controller,
   });
   final Function(String?) onSaved;
   final FormFieldValidator<String>? validator;
@@ -30,6 +30,7 @@ class AppTextField extends StatelessWidget {
   final double? width;
   final double? height;
   final AutovalidateMode? autoValidate;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -37,6 +38,7 @@ class AppTextField extends StatelessWidget {
       width: width ?? double.infinity,
       child: TextFormField(
         textAlign: TextAlign.left,
+        controller: controller,
         onSaved: onSaved,
         autovalidateMode: autoValidate,
         decoration: InputDecoration(
