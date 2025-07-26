@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signin/core/app_colors.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
@@ -25,8 +26,12 @@ class AppButton extends StatelessWidget {
       height: height,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(backgroundColor),
-          foregroundColor: WidgetStateProperty.all(Colors.black),
+          backgroundColor: WidgetStateProperty.all(
+            backgroundColor ?? Theme.of(context).colorScheme.primary,
+          ),
+          foregroundColor: WidgetStateProperty.all(
+            Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
         onPressed: onPressed,
         child:
