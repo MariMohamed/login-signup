@@ -9,4 +9,5 @@ class AppStrings {
   static const String firstName = "First Name";
   static const String lastName = "Last Name";
   static const String confirmPassword = "Confirm Password";
+  static const String phoneNumber = "Phone Number";
 }

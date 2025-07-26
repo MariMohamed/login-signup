@@ -20,12 +20,12 @@ class FormTemplate extends StatelessWidget {
       key: _formGlobalKey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 10,
         children: <Widget>[
-          ...children!.map((e) => Card(child: e)),
+          ...children!.map((e) => e),
           // submit button
           const SizedBox(height: 20),
           AppButton(
-            backgroundColor: AppColors.main,
             onPressed: () {
               if (_formGlobalKey.currentState!.validate()) {
                 _formGlobalKey.currentState!.save();

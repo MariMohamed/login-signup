@@ -32,8 +32,6 @@ class _PasswordTextfieldState extends State<PasswordTextfield> {
       validator: (v) {
         if (v == null || v.isEmpty) {
           return 'You must enter a Password';
-        } else if (v.length < 6) {
-          return 'Password must be at least 6 characters';
         }
         if (widget.optionalValidation != null) {
           return widget.optionalValidation!(v);
@@ -47,7 +45,6 @@ class _PasswordTextfieldState extends State<PasswordTextfield> {
         suffixIcon: IconButton(
           icon: Icon(
             _isPasswordHidden ? Icons.visibility : Icons.visibility_off,
-            color: Theme.of(context).primaryColorDark,
           ),
           onPressed: () {
             setState(() {

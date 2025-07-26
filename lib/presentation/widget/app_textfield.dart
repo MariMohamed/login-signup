@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:login_signin/core/app_Validator.dart';
 import 'package:login_signin/core/app_colors.dart';
 
 class AppTextField extends StatelessWidget {
   const AppTextField({
     super.key,
     required this.onSaved,
-    required this.validator,
+    this.validator,
     this.hint,
     this.suffixIcon,
     this.prefixIcon,
@@ -43,7 +44,7 @@ class AppTextField extends StatelessWidget {
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
         ),
-        validator: validator,
+        validator: validator ?? Appvalidator.defaultRequiredValidator,
         //
         style: style ?? TextStyle(fontSize: 14, color: AppColors.black),
         keyboardType: keyboardType ?? TextInputType.text,

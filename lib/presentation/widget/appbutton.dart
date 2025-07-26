@@ -26,8 +26,12 @@ class AppButton extends StatelessWidget {
       height: height,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(backgroundColor),
-          foregroundColor: WidgetStateProperty.all(AppColors.white),
+          backgroundColor: WidgetStateProperty.all(
+            backgroundColor ?? Theme.of(context).colorScheme.primary,
+          ),
+          foregroundColor: WidgetStateProperty.all(
+            Theme.of(context).colorScheme.onPrimary,
+          ),
         ),
         onPressed: onPressed,
         child:
