@@ -112,7 +112,7 @@ class _SignUpState extends State<SignUp> {
                 prefixIcon: Icon(Icons.phone_android_rounded),
                 keyboardType: TextInputType.phone,
                 validator: Appvalidator.phoneNumberValidator,
-              ),
+              ),//Uses international format +1XXXXXXXXXX
             ],
           ),
           TextButton(
