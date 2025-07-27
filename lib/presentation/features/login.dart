@@ -1,3 +1,6 @@
+import 'package:delightful_toast/delight_toast.dart';
+import 'package:delightful_toast/toast/components/toast_card.dart';
+import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_Validator.dart';
 import 'package:login_signin/core/app_colors.dart';
@@ -23,8 +26,31 @@ class _LogInState extends State<LogIn> {
   String? _email;
   bool _stayLoggedIn = false;
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final args = ModalRoute.of(context)?.settings.arguments as Map?;
+      if (args?["showToast"] == true) {
+        DelightToastBar(
+          snackbarDuration: Durations.short2,
+          animationDuration: Durations.short1,
+          position: DelightSnackbarPosition.top,
+          builder: (context) => const ToastCard(
+            leading: Icon(Icons.circle_notifications_rounded, size: 28),
+            title: Text(
+              "Logged out successfully",
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+            ),
+          ),
+        ).show(context);
+        Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

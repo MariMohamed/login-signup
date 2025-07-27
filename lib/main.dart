@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/manager/app_theme.dart';
 import 'package:login_signin/core/manager/app_themeSwitcher.dart';
-import 'package:login_signin/presentation/features/homescreen.dart';
+import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
 import 'package:login_signin/presentation/features/login.dart';
 import 'package:login_signin/presentation/features/signup.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +32,8 @@ class MyApp extends StatelessWidget {
             '/login': (context) => LogIn(),
             '/home': (context) => HomeScreen(),
           },
-          initialRoute: Routes.logIn,
+          //initialRoute: Routes.logIn,
+          initialRoute: Routes.home,
           title: 'Flutter Demo',
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,

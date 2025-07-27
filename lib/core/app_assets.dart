@@ -1,3 +1,4 @@
 class AppAssets {
-  static const String logo = 'assets/app_logo.jpg';
+  static const String defultAvatar =
+      'assets/default-avatar-icon-of-social-media-user-vector.jpg';
 }

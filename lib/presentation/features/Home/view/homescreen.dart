@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signin/presentation/features/Home/widgets/home_drawer.dart';
 import 'package:login_signin/presentation/widget/app_center.dart';
 import 'package:login_signin/presentation/widget/appbutton.dart';
 import 'package:login_signin/core/app_router.dart';
@@ -11,14 +12,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      body: AppCenter(
-        children: [
-          AppButton(
-            title: AppStrings.logOut,
-            onPressed: () {
-              AppRouter.push(context, Routes.logIn);
-            },
-          ),
+      drawer: HomeDrawer(),
+      implyleading: true,
+      body: AppCenter(children: [
+          
+          
         ],
       ),
     );

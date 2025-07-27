@@ -9,4 +9,10 @@ class Routes {
 class AppRouter {
   static Future push(BuildContext appContext, String name) =>
       Navigator.pushNamed(appContext, name);
+
+  static Future pushArgument(
+    BuildContext appContext,
+    String name,
+    Object argument,
+  ) => Navigator.pushNamed(appContext, name, arguments: argument);
 }
