@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login_signin/core/manager/app_themeSwitcher.dart';
+import 'package:login_signin/core/manager/theme/app_themeSwitcher.dart';
 import 'package:provider/provider.dart';
 
 class CustomScaffold extends StatelessWidget {
