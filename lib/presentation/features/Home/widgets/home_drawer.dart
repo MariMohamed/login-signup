@@ -29,7 +29,6 @@ class _HomeDrawerState extends State<HomeDrawer>
             mainAxisAlignment: MainAxisAlignment.center,
             spacing: 20,
             children: [
-              Text("hello"),
               HomeUseravatar(),
               AppButton(
                 title: AppStrings.logOut,
