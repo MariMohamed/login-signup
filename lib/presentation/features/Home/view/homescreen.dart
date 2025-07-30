@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      drawer: HomeDrawer(),
+      drawer: HomeDrawer(), //Signout button in Drawer 
       implyleading: true,
       body: AppCenter(children: [
           
