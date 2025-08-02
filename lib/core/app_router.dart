@@ -15,4 +15,17 @@ class AppRouter {
     String name,
     Object argument,
   ) => Navigator.pushNamed(appContext, name, arguments: argument);
+
+  static Future transition(BuildContext appContext, Widget child) {
+    Route createRoute() {
+      return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => child,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return child;
+        },
+      );
+    }
+
+    return Navigator.push(appContext, createRoute());
+  }
 }

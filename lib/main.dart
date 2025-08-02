@@ -4,8 +4,8 @@ import 'package:login_signin/core/manager/theme/app_drawerStateManager.dart';
 import 'package:login_signin/core/manager/theme/app_theme.dart';
 import 'package:login_signin/core/manager/theme/app_themeSwitcher.dart';
 import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
-import 'package:login_signin/presentation/features/login.dart';
-import 'package:login_signin/presentation/features/signup.dart';
+import 'package:login_signin/presentation/features/auth/login.dart';
+import 'package:login_signin/presentation/features/auth/signup.dart';
 import 'package:provider/provider.dart';
 
 void main() {

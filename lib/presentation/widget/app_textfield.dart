@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:login_signin/core/app_Validator.dart';
+import 'package:flutter/services.dart';
+import 'package:login_signin/core/app_colors.dart';
+import 'package:login_signin/core/validator/app_Validator.dart';
 
-class AppTextField extends StatelessWidget {
+class AppTextField extends StatefulWidget {
   const AppTextField({
     super.key,
+    required this.controller,
+    required this.onChange,
     required this.onSaved,
-    this.validator,
     this.hint,
     this.suffixIcon,
     this.prefixIcon,
@@ -15,11 +18,13 @@ class AppTextField extends StatelessWidget {
     this.obscureText,
     this.width,
     this.height,
-    this.autoValidate,
-    this.controller,
+    this.validator,
+    this.inputFormatters,
   });
+  final TextEditingController controller;
+  final Function(String)? onChange;
   final Function(String?) onSaved;
-  final FormFieldValidator<String>? validator;
+
   final String? hint;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -29,30 +34,76 @@ class AppTextField extends StatelessWidget {
   final bool? obscureText;
   final double? width;
   final double? height;
-  final AutovalidateMode? autoValidate;
-  final TextEditingController? controller;
+  final AppValidator? validator;
+  final List<TextInputFormatter>? inputFormatters;
+
+  @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  late final FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height ?? 50,
-      width: width ?? double.infinity,
-      child: TextFormField(
-        textAlign: TextAlign.left,
-        controller: controller,
-        onSaved: onSaved,
-        autovalidateMode: autoValidate,
-        decoration: InputDecoration(
-          hintText: hint,
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: widget.height ?? 50,
+          width: widget.width ?? double.infinity,
+          child: TextFormField(
+            controller: widget.controller,
+            //
+            onChanged: widget.onChange,
+            onSaved: widget.onSaved,
+            //
+            inputFormatters: widget.inputFormatters,
+            decoration: InputDecoration(
+              hintText: widget.hint,
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
+            ),
+
+            //
+            style:
+                widget.style ?? TextStyle(fontSize: 14, color: AppColors.black),
+            keyboardType: widget.keyboardType ?? TextInputType.text,
+            readOnly: widget.isReadOnly ?? false,
+            obscureText: widget.obscureText ?? false,
+          ),
         ),
-        validator: validator ?? Appvalidator.defaultRequiredValidator,
-        //
-        style: style ?? TextStyle(fontSize: 14),
-        keyboardType: keyboardType ?? TextInputType.text,
-        readOnly: isReadOnly ?? false,
-        obscureText: obscureText ?? false,
-      ),
+        if (widget.validator != null) getValidationHints(),
+      ],
+    );
+  }
+
+  Widget getValidationHints() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ...widget.validator!.reasons.map(
+          (e) => Column(
+            children: [
+              const SizedBox(height: 5),
+              Text(e, style: TextStyle(color: AppColors.red, fontSize: 12)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

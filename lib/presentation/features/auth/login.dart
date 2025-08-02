@@ -2,16 +2,21 @@ import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:login_signin/core/app_Validator.dart';
+import 'package:login_signin/core/animation/horizontal_animation.dart';
+import 'package:login_signin/core/animation/vertical_animation.dart';
+import 'package:login_signin/core/validator/app_Validator.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
+import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
+import 'package:login_signin/presentation/features/auth/controller/auth_controller.dart';
+import 'package:login_signin/presentation/features/auth/signup.dart';
 import 'package:login_signin/presentation/widget/app_center.dart';
 import 'package:login_signin/presentation/widget/app_pagetitle.dart';
 import 'package:login_signin/presentation/widget/app_textfield.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 import 'package:login_signin/presentation/widget/formTemp.dart';
-import 'package:login_signin/presentation/widget/password_textfield.dart';
+import 'package:login_signin/core/validator/app_validator_types/email_validator.dart';
 
 // ignore: must_be_immutable
 class LogIn extends StatefulWidget {
@@ -22,12 +27,16 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-  String? _password;
-  String? _email;
+  late String _password;
+  late String _username;
   bool _stayLoggedIn = false;
-
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final AuthController _authController = AuthController();
+  final _usernameController = TextEditingController();
+  bool _isPasswordHidden = true;
+  bool get isFormValid =>
+      _passwordController.text.isNotEmpty &&
+      _usernameController.text.isNotEmpty;
 
   @override
   void initState() {
@@ -59,30 +68,44 @@ class _LogInState extends State<LogIn> {
         children: [
           AppPagetitle(title: AppStrings.login),
           FormTemplate(
+            enabled: isFormValid,
             submitMessage: AppStrings.login,
             onSubmit: () {
-              print(
-                "login success \nE_mail is $_email\nPassword is $_password\nStay logged in : $_stayLoggedIn",
-              ); //Debug
-              AppRouter.push(context, Routes.home);
+              _authController.login(
+                username: _username,
+                password: _password,
+                context: context,
+              );
             },
             children: [
               AppTextField(
-                controller: _emailController,
-                validator: Appvalidator.EmailValidator,
+                controller: _usernameController,
+                onChange: (v) {},
                 onSaved: (value) {
-                  _email = _emailController.text;
+                  _username = _usernameController.text;
                 },
-                hint: AppStrings.emailAddress,
-                keyboardType: TextInputType.emailAddress,
-                prefixIcon: Icon(Icons.email_rounded),
+                hint: AppStrings.username,
+                prefixIcon: Icon(Icons.person),
               ),
-              PasswordTextfield(
-                passwordController: _passwordController,
-                text: AppStrings.password,
+              AppTextField(
+                obscureText: _isPasswordHidden,
+                hint: AppStrings.password,
+                prefixIcon: Icon(Icons.lock_person_rounded),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordHidden ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordHidden = !_isPasswordHidden;
+                    });
+                  },
+                ),
                 onSaved: (value) {
                   _password = _passwordController.text;
                 },
+                controller: _passwordController,
+                onChange: (value) {},
               ),
               Row(
                 children: [
@@ -100,10 +123,22 @@ class _LogInState extends State<LogIn> {
             ],
           ),
           TextButton(
-            onPressed: () => AppRouter.push(context, Routes.signUp),
+            onPressed: () => AppRouter.transition(
+              context,
+              VerticalAnimation(child: SignUp()),
+            ),
+            //AppRouter.push(context, Routes.signUp),
             child: InkWell(
               hoverColor: AppColors.grey,
               child: Text(AppStrings.registerNewAccount),
+            ),
+          ),
+
+          TextButton(
+            onPressed: () => AppRouter.push(context, Routes.home),
+            child: InkWell(
+              hoverColor: AppColors.grey,
+              child: Text("Explore without account"),
             ),
           ),
         ],

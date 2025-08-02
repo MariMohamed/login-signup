@@ -1,0 +1,60 @@
+import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:login_signin/core/data/cart_model.dart';
+import 'package:login_signin/core/remote/api_constants.dart';
+import 'package:login_signin/core/remote/api_service.dart';
+
+class CartListController {
+  final ApiService apiService = ApiService();
+
+  Future<List<Cart>> getCarts() async {
+    try {
+      final response = await apiService.get(path: ApiConstants.carts);
+      final List<dynamic> dataList = response.data as List;
+      // debugPrint(response.data.runtimeType.toString());
+      if (response.statusCode == 200) {
+        return dataList.map((e) => Cart.fromJson(e)).toList();
+      }
+      return [];
+    } catch (e) {
+      rethrow; // == throw(e)
+    }
+  }
+
+  Future<Cart> addcart(Cart cart, context) async {
+    try {
+      final response = await apiService.post(
+        data: cart.toJson(),
+        path: ApiConstants.users,
+      );
+
+      if (response.statusCode == 200) {
+        return showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (ctx) {
+            Future.delayed(const Duration(seconds: 2), () {
+              Navigator.of(context).pop();
+            });
+            return AlertDialog(content: const Text("Item Added to cart"));
+          },
+        ).then((value) {
+          return value ?? false;
+        });
+      } else {
+        return showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (ctx) {
+            Future.delayed(const Duration(seconds: 2), () {});
+            return AlertDialog(
+              content: const Text("Failed to add item to cart"),
+            );
+          },
+        ).then((value) => value ?? false);
+      }
+    } catch (e) {
+      rethrow; // == throw(e)
+    }
+  }
+}
