@@ -24,10 +24,13 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true; // This preserves the state
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   List<User> users = [];
   final FocusNode _focusNode = FocusNode();
 
@@ -80,6 +83,7 @@ class _SignUpState extends State<SignUp> {
           AppPagetitle(title: AppStrings.signup),
           FormTemplate(
             enabled: isFormValid,
+
             submitMessage: AppStrings.signup,
             onSubmit: () {
               final _user = User(
@@ -162,9 +166,10 @@ class _SignUpState extends State<SignUp> {
               AppTextField(
                 validator: confirmPasswordValidator,
                 onChange: (v) {
-                  setState(() {
-                    confirmPasswordValidator.setValue(v!);
-                  });
+                  confirmPasswordValidator.setValue(v!);
+                  confirmPasswordValidator.comparedWithPassword =
+                      _passwordController.text;
+                  setState(() {});
                 },
                 obscureText: _confirmisPasswordHidden,
                 hint: AppStrings.confirmPassword,
@@ -184,7 +189,7 @@ class _SignUpState extends State<SignUp> {
                 onSaved: (value) {},
               ),
               AppTextField(
-                controller: TextEditingController(),
+                controller: _phoneController,
                 validator: phoneAppValidator,
                 onChange: (v) {
                   setState(() {

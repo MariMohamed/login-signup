@@ -13,12 +13,12 @@ class ConfirmPasswordAppValidator extends AppValidator {
 
   @override
   List<String> check() {
-    List<String> resons = [];
+    List<String> reasons = [];
 
     if (value != _comparedWithPassword) {
-      resons.add(AppStrings.passwordDontMatch);
+      reasons.add(AppStrings.passwordDontMatch);
     }
 
-    return resons;
+    return reasons;
   }
 }

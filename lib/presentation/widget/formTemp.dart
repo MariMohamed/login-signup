@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/presentation/widget/appbutton.dart';
 
-class FormTemplate extends StatelessWidget {
+class FormTemplate extends StatefulWidget {
   FormTemplate({
     super.key,
     required this.children,
@@ -13,21 +13,31 @@ class FormTemplate extends StatelessWidget {
   final List<Widget>? children;
   final VoidCallback onSubmit;
   final String submitMessage;
-  final _formGlobalKey = GlobalKey<FormState>();
   final bool enabled;
+
+  @override
+  State<FormTemplate> createState() => _FormTemplateState();
+}
+
+class _FormTemplateState extends State<FormTemplate>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  final _formGlobalKey = GlobalKey<FormState>();
 
   Widget validButton() {
     return AppButton(
-      onPressed: enabled
+      onPressed: widget.enabled
           ? () {
               if (_formGlobalKey.currentState?.validate() ?? false) {
                 _formGlobalKey.currentState!.save();
-                onSubmit();
+                widget.onSubmit();
               }
             }
           : () {},
-      backgroundColor: enabled ? AppColors.main : AppColors.grey,
-      child: Text(submitMessage),
+      backgroundColor: widget.enabled ? AppColors.main : AppColors.grey,
+      child: Text(widget.submitMessage),
     );
   }
 
@@ -38,7 +48,7 @@ class FormTemplate extends StatelessWidget {
       child: Column(
         spacing: 10,
         children: <Widget>[
-          ...children!.map((e) => e),
+          ...widget.children!.map((e) => e),
           // submit button
           const SizedBox(height: 20),
           validButton(),

@@ -10,16 +10,16 @@ class PhoneAppValidator extends AppValidator {
 
   @override
   List<String> check() {
-    List<String> resons = [];
+    List<String> reasons = [];
 
     if (value.isEmpty) {
-      resons.add(AppStrings.requiredField);
+      reasons.add(AppStrings.requiredField);
     }
 
     if (!Utils.isPhoneNumberIsValidWithCountyCode("EG", value)) {
-      resons.add(AppStrings.invalidPhone);
+      reasons.add(AppStrings.invalidPhone);
     }
 
-    return resons;
+    return reasons;
   }
 }
