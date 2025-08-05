@@ -3,6 +3,8 @@ import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_drawer.dart';
+import 'package:login_signin/presentation/pages/widget/cart_productcard.dart';
+import 'package:login_signin/presentation/widget/app_card.dart';
 import 'package:login_signin/presentation/widget/app_cardGrid.dart';
 import 'package:login_signin/presentation/widget/app_center.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
@@ -20,20 +22,28 @@ class Cartpage extends StatelessWidget {
       (cart) => cart.userId == appData.currentUser?.id,
       orElse: () => throw Exception('User not found'),
     );
-    bool test(Product product) {
-      return cart.products.any(
-        (cartProduct) => cartProduct.productId == product.id,
-      );
-    }
 
-    ;
-    final List<Product> cartProducts = appData.products.where(test).toList();
+    final List<Product> cartProducts = cart.products.map((cartProduct) {
+      final product = appData.products.firstWhere(
+        (p) => p.id == cartProduct.productId,
+      );
+      return product.copyWith(quantity: cartProduct.quantity);
+    }).toList();
+
     return CustomScaffold(
       drawer: HomeDrawer(),
       implyleading: true,
       body: cartProducts.isEmpty
           ? const Center(child: Text('Your cart is empty'))
-          : AppCenter(children: [CardGrid(products: cartProducts)]),
+          : ListView.builder(
+              itemCount: cartProducts.length,
+              itemBuilder: (buildcontext, index) {
+                return CartProductcard(
+                  product: cartProducts[index],
+                  cart: cart,
+                );
+              },
+            ),
     );
   }
 }

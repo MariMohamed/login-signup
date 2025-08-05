@@ -8,6 +8,7 @@ class Product {
   final String category;
   final String image;
   final Map<String, dynamic> rating;
+  final int? quantity;
 
   const Product({
     required this.id,
@@ -17,6 +18,7 @@ class Product {
     required this.category,
     required this.image,
     required this.rating,
+    this.quantity,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,19 @@ class Product {
       category: json[ApiKeys.category],
       image: json[ApiKeys.image],
       rating: json[ApiKeys.rating],
+    );
+  }
+
+  Product copyWith({int? quantity}) {
+    return Product(
+      id: id,
+      title: title,
+      price: price,
+      description: description,
+      category: category,
+      image: image,
+      rating: rating,
+      quantity: quantity ?? this.quantity,
     );
   }
 }

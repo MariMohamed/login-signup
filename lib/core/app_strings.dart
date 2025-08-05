@@ -30,4 +30,5 @@ class AppStrings {
   static const String invalidPhone = "Invalid Phone";
   static const String cart = "Cart ";
   static const String home = "Home";
+  static const String remove = "Remove";
 }

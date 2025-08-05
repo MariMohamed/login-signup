@@ -97,8 +97,13 @@ class AppDataProvider with ChangeNotifier {
     } catch (e) {
       _currentUser = null;
       notifyListeners();
-      rethrow; // Preserve the original exception
+      rethrow;
     }
+  }
+
+  Future<void> updatecart(Cart cart, context) async {
+    _cartController.updatecart(cart, context);
+    notifyListeners();
   }
 }
 

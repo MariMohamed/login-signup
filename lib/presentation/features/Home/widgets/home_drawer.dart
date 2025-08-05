@@ -52,12 +52,12 @@ class _HomeDrawerState extends State<HomeDrawer>
               AppInkwell(
                 title: AppStrings.home,
                 icon: Icons.home,
-                page: HomeScreen(),
+                onTap: () => AppRouter.transition(context, HomeScreen()),
               ),
               AppInkwell(
                 title: AppStrings.cart,
                 icon: Icons.shopping_cart,
-                page: Cartpage(),
+                onTap: () => AppRouter.transition(context, Cartpage()),
               ),
 
               AppButton(

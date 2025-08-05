@@ -72,7 +72,7 @@ class CartListController {
             Future.delayed(const Duration(seconds: 2), () {
               Navigator.of(context).pop();
             });
-            return AlertDialog(content: const Text("Item Added to cart"));
+            return AlertDialog(content: const Text("Operation success"));
           },
         ).then((value) {
           return value ?? false;
@@ -83,9 +83,7 @@ class CartListController {
           context: context,
           builder: (ctx) {
             Future.delayed(const Duration(seconds: 2), () {});
-            return AlertDialog(
-              content: const Text("Failed to add item to cart"),
-            );
+            return AlertDialog(content: const Text("Operation failed"));
           },
         ).then((value) => value ?? false);
       }
