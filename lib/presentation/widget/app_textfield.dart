@@ -20,6 +20,7 @@ class AppTextField extends StatelessWidget {
     this.validator,
     this.inputFormatters,
     required this.onSaved,
+    this.prefixText,
   });
   final TextEditingController controller;
   final Function(String)? onChange;
@@ -35,6 +36,7 @@ class AppTextField extends StatelessWidget {
   final double? height;
   final AppValidator? validator;
   final List<TextInputFormatter>? inputFormatters;
+  final String? prefixText;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,6 +56,7 @@ class AppTextField extends StatelessWidget {
               hintText: hint,
               suffixIcon: suffixIcon,
               prefixIcon: prefixIcon,
+              prefixText: prefixText,
             ),
 
             //

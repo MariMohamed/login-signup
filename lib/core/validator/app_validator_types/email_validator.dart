@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/validator/app_Validator.dart';
 import 'package:login_signin/core/validator/reg_exp.dart';

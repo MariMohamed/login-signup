@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/animation/vertical_animation.dart';
-import 'package:login_signin/core/validator/app_Validator.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/data/user_model.dart';
+import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/validator/app_validator_types/confirmpassword_validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/email_validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/password_validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/phoneNumber_validator.dart';
 import 'package:login_signin/presentation/features/auth/login.dart';
-import 'package:login_signin/presentation/features/userlist/controller/uselist_controller.dart';
 import 'package:login_signin/presentation/widget/app_center.dart';
 import 'package:login_signin/presentation/widget/app_pagetitle.dart';
 import 'package:login_signin/presentation/widget/app_textfield.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 import 'package:login_signin/presentation/widget/formTemp.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
-  SignUp({super.key});
+  const SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
@@ -30,31 +30,23 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  List<User> users = [];
+  final _phoneController = TextEditingController(text: '+20');
+  final _userNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  Future<void> loadData() async {
-    final userResults = await userListController.getUsers();
-
-    setState(() {
-      users = userResults;
-    });
-  }
-
-  @override
-  void dispose() {
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _passwordController.dispose();
+  //   _confirmPasswordController.dispose();
+  //   _emailController.dispose();
+  //   _phoneController.dispose();
+  //   _firstNameController.dispose();
+  //   _lastNameController.dispose();
+  //   _userNameController.dispose();
+  //   super.dispose();
+  // }
 
   bool get isFormValid =>
       emailValidator.isValid &&
@@ -71,7 +63,6 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
   late String _password;
   late String _email;
   late String _phoneNumber;
-  final UserListController userListController = UserListController();
   bool _isPasswordHidden = true;
   bool _confirmisPasswordHidden = true;
 
@@ -85,16 +76,19 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
             enabled: isFormValid,
 
             submitMessage: AppStrings.signup,
-            onSubmit: () {
-              final _user = User(
-                id: users.length + 1,
+            onSubmit: () async {
+              final user = User(
                 username: _userName,
                 password: _password,
                 email: _email,
                 name: {'firstname': _firstName, 'lastname': _lastName},
                 phone: _phoneNumber,
               );
-              userListController.signup(_user, context);
+
+              await Provider.of<AppDataProvider>(
+                context,
+                listen: false,
+              ).addUser(user, context);
             },
             children: [
               Row(
@@ -102,26 +96,32 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   AppTextField(
-                    controller: TextEditingController(),
+                    controller: _firstNameController,
                     onChange: (v) {},
                     width: 200,
                     hint: AppStrings.firstName,
-                    onSaved: (value) => _firstName = value!,
+                    onSaved: (value) => setState(() {
+                      _firstName = _firstNameController.text;
+                    }),
                   ),
                   AppTextField(
-                    controller: TextEditingController(),
+                    controller: _lastNameController,
                     onChange: (v) {},
                     width: 200,
                     hint: AppStrings.lastName,
-                    onSaved: (value) => _lastName = value!,
+                    onSaved: (value) => setState(() {
+                      _lastName = _lastNameController.text;
+                    }),
                   ),
                 ],
               ),
               AppTextField(
-                controller: TextEditingController(),
+                controller: _userNameController,
                 onChange: (v) {},
                 hint: AppStrings.username,
-                onSaved: (value) => _userName = value!,
+                onSaved: (value) => setState(() {
+                  _userName = _userNameController.text;
+                }),
               ),
               AppTextField(
                 controller: _emailController,
@@ -166,7 +166,7 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
               AppTextField(
                 validator: confirmPasswordValidator,
                 onChange: (v) {
-                  confirmPasswordValidator.setValue(v!);
+                  confirmPasswordValidator.setValue(v);
                   confirmPasswordValidator.comparedWithPassword =
                       _passwordController.text;
                   setState(() {});
@@ -193,15 +193,17 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
                 validator: phoneAppValidator,
                 onChange: (v) {
                   setState(() {
-                    phoneAppValidator.setValue(v!);
+                    phoneAppValidator.setValue(v);
                     _focusNode.requestFocus();
                   });
                 },
                 hint: AppStrings.phoneNumber,
-                onSaved: (v) => _phoneNumber = v!,
+                onSaved: (v) => setState(() {
+                  _phoneNumber = v!;
+                }),
                 prefixIcon: Icon(Icons.phone_android_rounded),
                 keyboardType: TextInputType.phone,
-              ), //Uses international format +1XXXXXXXXXX
+              ),
             ],
           ),
           TextButton(

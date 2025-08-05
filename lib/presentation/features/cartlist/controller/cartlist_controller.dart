@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/remote/api_constants.dart';
@@ -25,7 +24,44 @@ class CartListController {
     try {
       final response = await apiService.post(
         data: cart.toJson(),
-        path: ApiConstants.users,
+        path: ApiConstants.carts,
+      );
+
+      if (response.statusCode == 200) {
+        return showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (ctx) {
+            Future.delayed(const Duration(seconds: 2), () {
+              Navigator.of(context).pop();
+            });
+            return AlertDialog(content: const Text("Item Added to cart"));
+          },
+        ).then((value) {
+          return value ?? false;
+        });
+      } else {
+        return showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (ctx) {
+            Future.delayed(const Duration(seconds: 2), () {});
+            return AlertDialog(
+              content: const Text("Failed to add item to cart"),
+            );
+          },
+        ).then((value) => value ?? false);
+      }
+    } catch (e) {
+      rethrow; // == throw(e)
+    }
+  }
+
+  Future<Cart> updatecart(Cart cart, context) async {
+    try {
+      final response = await apiService.update(
+        data: cart.toJson(),
+        path: "${ApiConstants.carts}/${cart.id}",
       );
 
       if (response.statusCode == 200) {

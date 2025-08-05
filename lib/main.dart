@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_router.dart';
-import 'package:login_signin/core/manager/theme/app_drawerStateManager.dart';
+import 'package:login_signin/core/providers/app_dataprovider.dart';
+import 'package:login_signin/core/providers/app_drawerStateManager.dart';
 import 'package:login_signin/core/manager/theme/app_theme.dart';
-import 'package:login_signin/core/manager/theme/app_themeSwitcher.dart';
+import 'package:login_signin/core/providers/app_themeSwitcher.dart';
 import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
 import 'package:login_signin/presentation/features/auth/login.dart';
 import 'package:login_signin/presentation/features/auth/signup.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -26,6 +28,9 @@ class MyApp extends StatelessWidget {
           create: (_) => DrawerStateInfo(),
         ),
         ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider<AppDataProvider>(
+          create: (context) => AppDataProvider()..loadData(),
+        ),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

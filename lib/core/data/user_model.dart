@@ -2,7 +2,7 @@ import 'package:login_signin/core/remote/api_keys.dart';
 
 class User {
   final Map<String, dynamic>? address;
-  final int id;
+  final int? id;
   final String username;
   final String password;
   final String email;
@@ -11,7 +11,7 @@ class User {
   final int v;
   const User({
     this.address,
-    required this.id,
+    this.id,
     required this.username,
     required this.password,
     required this.email,
@@ -45,4 +45,29 @@ class User {
     ApiKeys.email: email,
     ApiKeys.v: v,
   };
+
+  User copyWith({
+    int? id,
+    String? username,
+    String? password,
+    String? email,
+    Map<String, dynamic>? name,
+    String? phone,
+  }) {
+    return User(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      password: password ?? this.password,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+    );
+  }
+
+  String get displayName {
+    final first = name['firstname'];
+    final last = name['lastname'];
+    final full = '$first $last'.trim();
+    return full;
+  }
 }

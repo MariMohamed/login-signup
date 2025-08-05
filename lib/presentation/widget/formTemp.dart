@@ -3,7 +3,7 @@ import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/presentation/widget/appbutton.dart';
 
 class FormTemplate extends StatefulWidget {
-  FormTemplate({
+  const FormTemplate({
     super.key,
     required this.children,
     required this.onSubmit,

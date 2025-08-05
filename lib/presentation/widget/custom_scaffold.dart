@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login_signin/core/manager/theme/app_themeSwitcher.dart';
+import 'package:login_signin/core/providers/app_themeSwitcher.dart';
 import 'package:provider/provider.dart';
 
 class CustomScaffold extends StatelessWidget {
@@ -8,15 +8,18 @@ class CustomScaffold extends StatelessWidget {
     required this.body,
     this.drawer,
     this.implyleading,
+    this.navBar,
   });
   final Widget body;
   final Widget? drawer;
   final bool? implyleading;
+  final Widget? navBar;
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: true);
     return Scaffold(
       drawer: drawer,
+      bottomNavigationBar: navBar,
       appBar: AppBar(
         actions: [
           Switch(

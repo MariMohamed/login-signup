@@ -5,7 +5,6 @@ import 'package:login_signin/core/data/user_model.dart';
 import 'package:login_signin/core/remote/api_constants.dart';
 import 'package:login_signin/core/remote/api_service.dart';
 import 'package:login_signin/presentation/features/auth/login.dart';
-import 'package:login_signin/presentation/features/auth/signup.dart';
 
 class UserListController {
   final ApiService apiService = ApiService();
@@ -31,7 +30,7 @@ class UserListController {
         path: ApiConstants.users,
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return showDialog(
           barrierDismissible: true,
           context: context,

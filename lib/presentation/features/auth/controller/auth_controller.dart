@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/data/auth_model.dart';
+import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/remote/api_constants.dart';
 import 'package:login_signin/core/remote/api_service.dart';
+import 'package:provider/provider.dart';
 
 class AuthController {
   final ApiService apiService = ApiService();
@@ -22,11 +24,16 @@ class AuthController {
         },
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        await Provider.of<AppDataProvider>(
+          context,
+          listen: false,
+        ).setCurrentUser([username, password]);
+
         if (context.mounted) {
           await AppRouter.push(context, Routes.home);
         }
-        return;
+        return response.data;
       }
 
       // Handle specific error cases

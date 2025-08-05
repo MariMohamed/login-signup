@@ -9,7 +9,7 @@ class PasswordAppValidator extends AppValidator {
   List<String> check() {
     List<String> reasons = [];
 
-    if (value.length < 8) {
+    if (value.length < 6) {
       reasons.add(AppStrings.passwordMin);
     }
 

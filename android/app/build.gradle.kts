@@ -5,7 +5,6 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-
 android {
     namespace = "com.example.login_signin"
     compileSdk = flutter.compileSdkVersion

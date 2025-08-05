@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
-import 'package:login_signin/presentation/features/app_CartPage.dart';
 import 'package:login_signin/presentation/pages/view/product_page.dart';
 
 class AppCard extends StatelessWidget {

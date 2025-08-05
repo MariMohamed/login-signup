@@ -7,7 +7,7 @@ void main() async {
   try {
     // Example GET request
     print('Fetching ...');
-    final response = await apiService.get(path: "${ApiConstants.users}/1");
+    final response = await apiService.get(path: "${ApiConstants.carts}/1");
     print('Response data: ${response.data}');
   } catch (e) {
     print('Error: $e');

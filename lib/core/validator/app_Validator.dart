@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:login_signin/core/validator/reg_exp.dart';
-
 abstract class AppValidator {
   bool _isValid = false;
 

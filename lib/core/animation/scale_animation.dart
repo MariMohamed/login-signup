@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ScaleAnimation extends StatefulWidget {
-  const ScaleAnimation({super.key, required this.child});
+class ScaledAnimation extends StatefulWidget {
+  const ScaledAnimation({super.key, required this.child, this.duration});
   final Widget child;
+  final Duration? duration;
   @override
-  State<ScaleAnimation> createState() => _ScaleAnimationState();
+  State<ScaledAnimation> createState() => _ScaleAnimationState();
 }
 
-class _ScaleAnimationState extends State<ScaleAnimation>
+class _ScaleAnimationState extends State<ScaledAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> translateAnimation;
@@ -19,7 +20,7 @@ class _ScaleAnimationState extends State<ScaleAnimation>
 
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 620),
+      duration: widget.duration ?? Duration(milliseconds: 620),
     );
     translateAnimation = Tween<double>(
       begin: 0,
@@ -29,7 +30,7 @@ class _ScaleAnimationState extends State<ScaleAnimation>
     fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.ease));
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.elasticInOut));
     startAnimation();
   }
 

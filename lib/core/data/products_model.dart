@@ -1,5 +1,4 @@
 import 'package:login_signin/core/remote/api_keys.dart';
-import 'package:login_signin/presentation/pages/view/product_page.dart';
 
 class Product {
   final int id;
