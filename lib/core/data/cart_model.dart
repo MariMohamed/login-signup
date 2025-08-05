@@ -37,7 +37,7 @@ class Cart {
 
 class CartProduct {
   final int productId;
-  final int quantity;
+  int quantity;
 
   CartProduct({required this.productId, required this.quantity});
 

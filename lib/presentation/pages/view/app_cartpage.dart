@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:login_signin/core/animation/scale_animation.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_drawer.dart';
 import 'package:login_signin/presentation/pages/widget/cart_productcard.dart';
-import 'package:login_signin/presentation/widget/app_card.dart';
-import 'package:login_signin/presentation/widget/app_cardGrid.dart';
-import 'package:login_signin/presentation/widget/app_center.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -38,9 +36,11 @@ class Cartpage extends StatelessWidget {
           : ListView.builder(
               itemCount: cartProducts.length,
               itemBuilder: (buildcontext, index) {
-                return CartProductcard(
-                  product: cartProducts[index],
-                  cart: cart,
+                return ScaledAnimation(
+                  child: CartProductcard(
+                    product: cartProducts[index],
+                    cart: cart,
+                  ),
                 );
               },
             ),

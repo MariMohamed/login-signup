@@ -31,7 +31,7 @@ class _CardGridState extends State<CardGrid> {
             position: index,
             duration: const Duration(milliseconds: 500),
             columnCount: 2,
-            child: ScaledAnimation(
+            child: ScaleAnimation(
               duration: const Duration(milliseconds: 400),
               child: FadeInAnimation(
                 child: AppCard(product: widget.products[index]),

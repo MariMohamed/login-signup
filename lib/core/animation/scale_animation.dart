@@ -20,17 +20,17 @@ class _ScaleAnimationState extends State<ScaledAnimation>
 
     controller = AnimationController(
       vsync: this,
-      duration: widget.duration ?? Duration(milliseconds: 620),
+      duration: widget.duration ?? Duration(milliseconds: 820),
     );
     translateAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.elasticInOut));
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.bounceOut));
 
     fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.elasticInOut));
+    ).animate(CurvedAnimation(parent: controller, curve: Curves.bounceOut));
     startAnimation();
   }
 
