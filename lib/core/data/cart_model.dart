@@ -30,7 +30,7 @@ class Cart {
     ApiKeys.id: id,
     ApiKeys.date: date,
     ApiKeys.userId: userId,
-    ApiKeys.products: products,
+    ApiKeys.products: products.map((product) => product.toJson()).toList(),
     ApiKeys.v: version,
   };
 }
@@ -43,8 +43,13 @@ class CartProduct {
 
   factory CartProduct.fromJson(Map<String, dynamic> json) {
     return CartProduct(
-      productId: json['productId'] as int,
-      quantity: json['quantity'] as int,
+      productId: json[ApiKeys.productId] as int,
+      quantity: json[ApiKeys.quantity] as int,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    ApiKeys.productId: productId,
+    ApiKeys.quantity: quantity,
+  };
 }

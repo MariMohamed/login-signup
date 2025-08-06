@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/data/user_model.dart';
@@ -56,16 +57,49 @@ class AppDataProvider with ChangeNotifier {
     await loadData();
   }
 
-  Future<void> addUser(User user, context) async {
-    final newId = _users.isEmpty ? 1 : _users.last.id! + 1;
+  Future<User?> addUser(User user, BuildContext context) async {
+    try {
+      final newId = _users.isEmpty ? 1 : _users.last.id! + 1;
+      final newUser = user.copyWith(id: newId);
 
-    final newUser = user.copyWith(id: newId);
+      _isLoading = true;
+      notifyListeners();
 
-    _isLoading = true;
-    notifyListeners();
+      // 1. First handle the signup (which returns bool)
+      final User createdUser = await _userListController.signup(
+        newUser,
+        context,
+      );
 
-    final createdUser = await _userListController.signup(newUser, context);
-    _users = [..._users, createdUser];
+      if (createdUser == null) {
+        throw Exception('Signup failed');
+      }
+      _users = [..._users, createdUser];
+
+      // Attempt login
+      try {
+        await _authController.login(
+          username: createdUser.username,
+          password: createdUser.password,
+          context: context,
+        );
+
+        // If we get here, login succeeded
+        _users = [..._users, createdUser];
+        Navigator.of(context).pushReplacementNamed('/home');
+        return newUser;
+      } catch (loginError) {
+        throw Exception('Login failed after signup: $loginError');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+      return null;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> login(String username, String password, context) async {
@@ -99,6 +133,11 @@ class AppDataProvider with ChangeNotifier {
       notifyListeners();
       rethrow;
     }
+  }
+
+  Future<void> addcart(Cart cart, context) async {
+    _cartController.addCart(cart, context);
+    notifyListeners();
   }
 
   Future<void> updatecart(Cart cart, context) async {

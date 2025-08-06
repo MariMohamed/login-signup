@@ -23,39 +23,44 @@ class UserListController {
     }
   }
 
+  Future<User> getUser(int userid) async {
+    try {
+      final response = await apiService.get(
+        path: '${ApiConstants.users}/${userid}',
+      );
+      final Map<String, dynamic> data = response.data;
+      // debugPrint(response.data.runtimeType.toString());
+      if (response.statusCode == 200) {
+        return User.fromJson(data);
+      }
+      throw Exception(
+        'Failed to fetch user: Status code ${response.statusCode}',
+      );
+    } catch (e) {
+      throw Exception('Failed to fetch user: ${e.toString()}');
+    }
+  }
+
   Future<User> signup(User user, context) async {
     try {
-      final response = await apiService.post(
+      final response = await apiService.postheader(
         data: user.toJson(),
         path: ApiConstants.users,
+        headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return showDialog(
-          barrierDismissible: true,
-          context: context,
-          builder: (ctx) {
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.of(context).pop();
-              AppRouter.transition(context, VerticalAnimation(child: LogIn()));
-            });
-            return AlertDialog(content: const Text("Registered succesfully"));
-          },
-        ).then((value) {
-          return value ?? false;
-        });
+        final responseData = response.data as Map<String, dynamic>;
+        return User.fromJson(responseData);
       } else {
-        return showDialog(
-          barrierDismissible: true,
-          context: context,
-          builder: (ctx) {
-            Future.delayed(const Duration(seconds: 2), () {});
-            return AlertDialog(content: const Text("Registeration Failed"));
-          },
-        ).then((value) => value ?? false);
+        throw Exception('Registration failed: ${response.statusCode}');
       }
     } catch (e) {
-      rethrow; // == throw(e)
+      print(e);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Signup Failed ${e.toString()}')));
+      rethrow;
     }
   }
 }

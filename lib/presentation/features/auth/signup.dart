@@ -51,7 +51,8 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
   bool get isFormValid =>
       emailValidator.isValid &&
       passwordValidator.isValid &&
-      confirmPasswordValidator.isValid;
+      confirmPasswordValidator.isValid &&
+      phoneAppValidator.isValid;
 
   final emailValidator = EmailAppValidator();
   final passwordValidator = PasswordAppValidator();

@@ -31,4 +31,5 @@ class AppStrings {
   static const String cart = "Cart ";
   static const String home = "Home";
   static const String remove = "Remove";
+  static const String addtoCart = "Add To Cart";
 }

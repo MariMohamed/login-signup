@@ -18,4 +18,6 @@ class ApiKeys {
   static const String email = "email";
   static const String firstname = 'firstname';
   static const String lastname = 'lastname';
+  static const String productId = 'productId';
+  static const String quantity = 'quantity';
 }

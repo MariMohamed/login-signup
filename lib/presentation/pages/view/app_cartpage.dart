@@ -18,7 +18,7 @@ class Cartpage extends StatelessWidget {
     final appData = Provider.of<AppDataProvider>(context);
     final Cart cart = appData.carts.firstWhere(
       (cart) => cart.userId == appData.currentUser?.id,
-      orElse: () => throw Exception('User not found'),
+      orElse: () => throw Exception('Cart not found'),
     );
 
     final List<Product> cartProducts = cart.products.map((cartProduct) {
@@ -28,22 +28,24 @@ class Cartpage extends StatelessWidget {
       return product.copyWith(quantity: cartProduct.quantity);
     }).toList();
 
-    return CustomScaffold(
-      drawer: HomeDrawer(),
-      implyleading: true,
-      body: cartProducts.isEmpty
-          ? const Center(child: Text('Your cart is empty'))
-          : ListView.builder(
-              itemCount: cartProducts.length,
-              itemBuilder: (buildcontext, index) {
-                return ScaledAnimation(
-                  child: CartProductcard(
-                    product: cartProducts[index],
-                    cart: cart,
+    return appData.isLoading
+        ? Center(child: CircularProgressIndicator())
+        : CustomScaffold(
+            drawer: HomeDrawer(),
+            implyleading: true,
+            body: cartProducts.isEmpty
+                ? const Center(child: Text('Your cart is empty'))
+                : ListView.builder(
+                    itemCount: cartProducts.length,
+                    itemBuilder: (buildcontext, index) {
+                      return ScaledAnimation(
+                        child: CartProductcard(
+                          product: cartProducts[index],
+                          cart: cart,
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-    );
+          );
   }
 }

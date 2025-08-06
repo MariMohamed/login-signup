@@ -20,51 +20,53 @@ class CartListController {
     }
   }
 
-  Future<Cart> addcart(Cart cart, context) async {
+  Future<Cart> addCart(Cart cart, BuildContext context) async {
     try {
       final response = await apiService.post(
-        data: cart.toJson(),
         path: ApiConstants.carts,
+        data: cart.toJson(),
       );
 
-      if (response.statusCode == 200) {
-        return showDialog(
-          barrierDismissible: true,
-          context: context,
-          builder: (ctx) {
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.of(context).pop();
-            });
-            return AlertDialog(content: const Text("Item Added to cart"));
-          },
-        ).then((value) {
-          return value ?? false;
-        });
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Parse the response into a Cart object
+        final createdCart = Cart.fromJson(response.data);
+
+        // Show success feedback
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Cart created successfully'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+
+        return createdCart;
       } else {
-        return showDialog(
-          barrierDismissible: true,
-          context: context,
-          builder: (ctx) {
-            Future.delayed(const Duration(seconds: 2), () {});
-            return AlertDialog(
-              content: const Text("Failed to add item to cart"),
-            );
-          },
-        ).then((value) => value ?? false);
+        throw Exception(
+          'Server responded with status code: ${response.statusCode}',
+        );
       }
     } catch (e) {
-      rethrow; // == throw(e)
+      // Show error feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to create cart: ${e.toString()}'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      // Re-throw to allow callers to handle the error if needed
+      rethrow;
     }
   }
 
-  Future<Cart> updatecart(Cart cart, context) async {
+  Future<void> updatecart(Cart cart, context) async {
     try {
       final response = await apiService.update(
         data: cart.toJson(),
         path: "${ApiConstants.carts}/${cart.id}",
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return showDialog(
           barrierDismissible: true,
           context: context,

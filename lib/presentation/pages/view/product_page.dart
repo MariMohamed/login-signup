@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login_signin/core/data/products_model.dart';
+import 'package:login_signin/presentation/pages/widget/app_addtocartview.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 
 class ProductPage extends StatelessWidget {
@@ -73,6 +74,7 @@ class ProductPage extends StatelessWidget {
                           product.description,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
+                        Addtocartview(product: product),
                       ],
                     ),
                   ),
