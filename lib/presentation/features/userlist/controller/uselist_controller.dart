@@ -56,10 +56,52 @@ class UserListController {
         throw Exception('Registration failed: ${response.statusCode}');
       }
     } catch (e) {
-      print(e);
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Signup Failed ${e.toString()}')));
+      rethrow;
+    }
+  }
+
+  Future<User> updateUser(User user, context) async {
+    try {
+      final response = await apiService.update(
+        data: user.toJson(),
+        path: '${ApiConstants.users}/${user.id}',
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final responseData = response.data as Map<String, dynamic>;
+        return User.fromJson(responseData);
+      } else {
+        throw Exception('Update  failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Update Failed ${e.toString()}')));
+      rethrow;
+    }
+  }
+
+  Future<void> deleteUser(User user, context) async {
+    try {
+      final response = await apiService.update(
+        data: user.toJson(),
+        path: '${ApiConstants.users}/${user.id}',
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('User Deleted successfully')));
+      } else {
+        throw Exception('Update  failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Update Failed ${e.toString()}')));
       rethrow;
     }
   }

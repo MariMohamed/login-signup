@@ -6,4 +6,6 @@ class AppColors {
   static const Color red = Colors.red;
   static const Color main = Colors.lightBlue;
   static const Color white = Color.fromARGB(255, 255, 255, 255);
+  static const Color lightgray = Color(0xFF4F5663);
+  static const Color container = Color.fromARGB(255, 244, 244, 244);
 }

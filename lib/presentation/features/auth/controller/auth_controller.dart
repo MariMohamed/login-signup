@@ -29,6 +29,10 @@ class AuthController {
           context,
           listen: false,
         ).setCurrentUser([username, password]);
+        await Provider.of<AppDataProvider>(
+          context,
+          listen: false,
+        ).initializeUserCart(context);
 
         if (context.mounted) {
           await AppRouter.push(context, Routes.home);

@@ -125,14 +125,6 @@ class _LogInState extends State<LogIn> {
                     child: Text(AppStrings.registerNewAccount),
                   ),
                 ),
-
-                TextButton(
-                  onPressed: () => AppRouter.push(context, Routes.home),
-                  child: InkWell(
-                    hoverColor: AppColors.grey,
-                    child: Text("Explore without account"),
-                  ),
-                ),
               ],
             ),
           );

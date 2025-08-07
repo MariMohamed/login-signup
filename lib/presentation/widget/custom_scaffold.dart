@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/providers/app_themeSwitcher.dart';
 import 'package:provider/provider.dart';
 
@@ -7,31 +8,21 @@ class CustomScaffold extends StatelessWidget {
     super.key,
     required this.body,
     this.drawer,
-    this.implyleading,
     this.navBar,
+    this.appBar,
   });
   final Widget body;
   final Widget? drawer;
-  final bool? implyleading;
   final Widget? navBar;
+  final PreferredSizeWidget? appBar;
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: true);
     return Scaffold(
+      backgroundColor: AppColors.white,
       drawer: drawer,
       bottomNavigationBar: navBar,
-      appBar: AppBar(
-        actions: [
-          Switch(
-            value: themeProvider.isDarkMode,
-            onChanged: (value) {
-              themeProvider.setTheme(value ? ThemeMode.dark : ThemeMode.light);
-            },
-          ),
-        ],
-        automaticallyImplyLeading: implyleading ?? false,
-        notificationPredicate: (_) => false,
-      ),
+      appBar: appBar,
       body: body,
     );
   }

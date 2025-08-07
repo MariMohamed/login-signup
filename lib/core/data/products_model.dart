@@ -45,4 +45,13 @@ class Product {
       quantity: quantity ?? this.quantity,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    ApiKeys.id: id,
+    ApiKeys.title: title,
+    ApiKeys.price: price,
+    ApiKeys.description: description,
+    ApiKeys.image: image,
+    ApiKeys.rating: rating,
+  };
 }

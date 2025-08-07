@@ -36,38 +36,17 @@ class _AddtocartviewState extends State<Addtocartview> {
         AppButton(
           title: AppStrings.addtoCart,
           onPressed: () async {
-            Cart? cart;
             try {
-              cart = appData.carts.firstWhere(
-                (cart) => cart.userId == appData.currentUser?.id,
-              );
-            } on StateError catch (_) {
-              cart = null; // No matching element found
-            }
-            try {
-              if (cart == null) {
-                cart = Cart(
-                  id: appData.carts.length + 1,
-                  date: DateTime.now().toString(),
-                  userId: appData.currentUser!.id!,
-                  products: [cartProduct],
-                );
-                await Provider.of<AppDataProvider>(
-                  context,
-                  listen: false,
-                ).addcart(cart, context);
-              } else {
-                cart.products.add(cartProduct);
-                await Provider.of<AppDataProvider>(
-                  context,
-                  listen: false,
-                ).updatecart(cart, context);
-              }
+              appData.usercart!.products.add(cartProduct);
+              await Provider.of<AppDataProvider>(
+                context,
+                listen: false,
+              ).updatecart(appData.usercart!, context);
             } catch (e) {
-              // Handle errors
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Error updating cart: ${e.toString()}')),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+              return null;
             }
           },
         ),

@@ -18,11 +18,13 @@ class _CardGridState extends State<CardGrid> {
   Widget build(BuildContext context) {
     return AnimationLimiter(
       child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 12.0,
-          crossAxisSpacing: 12.0,
-          childAspectRatio: 0.85,
+          mainAxisSpacing: 16.0,
+          crossAxisSpacing: 16.0,
+          mainAxisExtent: 259,
         ),
         padding: const EdgeInsets.all(16.0),
         itemCount: widget.products.length,

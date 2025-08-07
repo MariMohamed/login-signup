@@ -46,7 +46,10 @@ class _CounterState extends State<Counter> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _createIncrementDicrementButton(Icons.remove, () => _dicrement()),
-          Text(_currentCount.toString()),
+          Text(
+            _currentCount.toString(),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           _createIncrementDicrementButton(Icons.add, () => _increment()),
         ],
       ),

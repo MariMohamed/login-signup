@@ -20,7 +20,23 @@ class CartListController {
     }
   }
 
-  Future<Cart> addCart(Cart cart, BuildContext context) async {
+  Future<Cart> getCart(int id) async {
+    try {
+      final response = await apiService.get(path: '${ApiConstants.carts}/$id');
+      final Map<String, dynamic> data = response.data;
+      if (response.statusCode == 200) {
+        Cart cart = Cart.fromJson(data);
+        return cart;
+      }
+      throw Exception(
+        'Failed to load cart: Status code ${response.statusCode}',
+      );
+    } catch (e) {
+      rethrow; // == throw(e)
+    }
+  }
+
+  Future<void> addCart(Cart cart, BuildContext context) async {
     try {
       final response = await apiService.post(
         path: ApiConstants.carts,
@@ -28,9 +44,6 @@ class CartListController {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Parse the response into a Cart object
-        final createdCart = Cart.fromJson(response.data);
-
         // Show success feedback
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -38,8 +51,6 @@ class CartListController {
             duration: const Duration(seconds: 2),
           ),
         );
-
-        return createdCart;
       } else {
         throw Exception(
           'Server responded with status code: ${response.statusCode}',
@@ -53,8 +64,6 @@ class CartListController {
           duration: const Duration(seconds: 2),
         ),
       );
-
-      // Re-throw to allow callers to handle the error if needed
       rethrow;
     }
   }
@@ -67,30 +76,57 @@ class CartListController {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return showDialog(
-          barrierDismissible: true,
-          context: context,
-          builder: (ctx) {
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.of(context).pop();
-            });
-            return AlertDialog(content: const Text("Operation success"));
-          },
-        ).then((value) {
-          return value ?? false;
-        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Cart updated successfully!'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
       } else {
-        return showDialog(
-          barrierDismissible: true,
-          context: context,
-          builder: (ctx) {
-            Future.delayed(const Duration(seconds: 2), () {});
-            return AlertDialog(content: const Text("Operation failed"));
-          },
-        ).then((value) => value ?? false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to update cart. Please try again.'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
       }
     } catch (e) {
-      rethrow; // == throw(e)
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'), // Show actual error
+          duration: const Duration(seconds: 3),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> deleteCart(Cart cart, BuildContext context) async {
+    try {
+      final response = await apiService.delete(
+        path: '${ApiConstants.carts}/${cart.id}',
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('deleted created successfully'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      } else {
+        throw Exception(
+          'Server responded with status code: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Show error feedback
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to create cart: ${e.toString()}'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     }
   }
 }

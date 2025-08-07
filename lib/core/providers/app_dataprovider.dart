@@ -19,12 +19,14 @@ class AppDataProvider with ChangeNotifier {
   List<Product> _products = [];
   List<User> _users = [];
   User? _currentUser;
+  Cart? _usercart;
   // Getters
   bool get isLoading => _isLoading;
   List<Cart> get carts => _carts;
   List<Product> get products => _products;
   List<User> get users => _users;
   User? get currentUser => _currentUser;
+  Cart? get usercart => _usercart;
 
   // Load all data
   Future<void> loadData() async {
@@ -108,6 +110,7 @@ class AppDataProvider with ChangeNotifier {
       password: password,
       context: context,
     );
+    //_initializeUserCart(context);
   }
 
   Future<void> setCurrentUser(List<String> userData) async {
@@ -138,6 +141,34 @@ class AppDataProvider with ChangeNotifier {
   Future<void> addcart(Cart cart, context) async {
     _cartController.addCart(cart, context);
     notifyListeners();
+  }
+
+  Future<void> initializeUserCart(context) async {
+    try {
+      // Try to find existing cart
+      _usercart = _carts.firstWhere(
+        (cart) => cart.userId == _currentUser?.id,
+        orElse: () => Cart(
+          // Return a new cart if none exists
+          id: _carts.length + 1,
+          date: DateTime.now().toString(),
+          userId: _currentUser!.id!,
+          products: [],
+          version: 0,
+        ),
+      );
+
+      // If new cart was created, add it to the backend
+      if (!_carts.any((cart) => cart.userId == _currentUser?.id)) {
+        await _cartController.addCart(_usercart!, context);
+        _carts.add(_usercart!);
+      }
+    } catch (e) {
+      debugPrint('Error initializing user cart: $e');
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to load cart data')));
+    }
   }
 
   Future<void> updatecart(Cart cart, context) async {
