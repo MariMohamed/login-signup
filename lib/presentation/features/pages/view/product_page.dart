@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:login_signin/core/app_assets.dart';
 import 'package:login_signin/core/data/products_model.dart';
-import 'package:login_signin/presentation/pages/widget/app_addtocartview.dart';
+import 'package:login_signin/presentation/features/pages/widget/app_addtocartview.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 
 class ProductPage extends StatelessWidget {

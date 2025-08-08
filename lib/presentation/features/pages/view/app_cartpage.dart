@@ -4,11 +4,9 @@ import 'package:login_signin/core/animation/scale_animation.dart';
 import 'package:login_signin/core/app_assets.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/app_textStyles.dart';
-import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
-import 'package:login_signin/presentation/features/Home/widgets/home_drawer.dart';
-import 'package:login_signin/presentation/pages/widget/cart_productcard.dart';
+import 'package:login_signin/presentation/features/pages/widget/cart_productcard.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 import 'package:provider/provider.dart';
 

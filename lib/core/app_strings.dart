@@ -33,4 +33,5 @@ class AppStrings {
   static const String remove = "Remove";
   static const String addtoCart = "Add To Cart";
   static const String search = "What are you looking for...";
+  static const String profile = "Profile";
 }

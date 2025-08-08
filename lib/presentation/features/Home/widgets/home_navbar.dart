@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:login_signin/core/app_assets.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
+import 'package:login_signin/presentation/features/pages/view/profile_page.dart';
 
 class HomeNavbar extends StatelessWidget {
   const HomeNavbar({super.key});
@@ -30,7 +31,7 @@ class HomeNavbar extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => AppRouter.transition(context, ProfilePage()),
             icon: SvgPicture.asset(AppAssets.profile, fit: BoxFit.cover),
           ),
         ],

@@ -15,7 +15,7 @@ void main() async {
         userId: 12,
         products: [],
       ).toJson(),
-      path: "${ApiConstants.carts}",
+      path: ApiConstants.carts,
     );
     print('Response data: ${response.data}');
   } catch (e) {

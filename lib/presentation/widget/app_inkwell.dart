@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:login_signin/core/animation/vertical_animation.dart';
-import 'package:login_signin/core/app_router.dart';
 
 class AppInkwell extends StatelessWidget {
   const AppInkwell({

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:login_signin/core/app_assets.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/products_model.dart';
-import 'package:login_signin/presentation/pages/view/product_page.dart';
+import 'package:login_signin/presentation/features/pages/view/product_page.dart';
 
 class AppCard extends StatelessWidget {
   const AppCard({super.key, required this.product});
@@ -71,6 +70,7 @@ class AppCard extends StatelessWidget {
                               width: 14,
                               height: 14,
                               color: AppColors.white,
+                              fit: BoxFit.scaleDown,
                             ),
                           ),
                         ),

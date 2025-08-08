@@ -26,7 +26,7 @@ class UserListController {
   Future<User> getUser(int userid) async {
     try {
       final response = await apiService.get(
-        path: '${ApiConstants.users}/${userid}',
+        path: '${ApiConstants.users}/$userid',
       );
       final Map<String, dynamic> data = response.data;
       // debugPrint(response.data.runtimeType.toString());

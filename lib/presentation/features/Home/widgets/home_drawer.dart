@@ -6,7 +6,7 @@ import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/providers/app_drawerStateManager.dart';
 import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_useravatar.dart';
-import 'package:login_signin/presentation/pages/view/app_cartpage.dart';
+import 'package:login_signin/presentation/features/pages/view/app_cartpage.dart';
 import 'package:login_signin/presentation/widget/app_inkwell.dart';
 import 'package:login_signin/presentation/widget/appbutton.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +41,7 @@ class _HomeDrawerState extends State<HomeDrawer>
                   mainAxisAlignment: MainAxisAlignment.center,
                   spacing: 16,
                   children: [
-                    HomeUseravatar(),
+                    Useravatar(),
                     Text(
                       appData.currentUser?.displayName ?? 'Guest',
                       style: TextStyle(color: AppColors.white, fontSize: 20),

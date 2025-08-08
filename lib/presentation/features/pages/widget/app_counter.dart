@@ -6,7 +6,7 @@ class Counter extends StatefulWidget {
   final Function(int)? counterCallback;
   final Function? increaseCallback;
   final Function? decreaseCallback;
-  Counter({
+  const Counter({
     super.key,
     this.counterCallback,
     this.increaseCallback,
@@ -22,7 +22,7 @@ class _CounterState extends State<Counter> {
   late Function _counterCallback;
   late Function _increaseCallback;
   late Function _decreaseCallback;
-  int _minNumber = 1;
+  final int _minNumber = 1;
 
   @override
   void initState() {

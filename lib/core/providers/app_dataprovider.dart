@@ -72,10 +72,6 @@ class AppDataProvider with ChangeNotifier {
         newUser,
         context,
       );
-
-      if (createdUser == null) {
-        throw Exception('Signup failed');
-      }
       _users = [..._users, createdUser];
 
       // Attempt login

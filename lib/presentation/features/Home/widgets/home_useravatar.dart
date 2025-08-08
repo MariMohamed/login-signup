@@ -7,23 +7,21 @@ import 'package:login_signin/core/manager/app_imagepicker.dart';
 import 'package:login_signin/core/providers/app_drawerStateManager.dart';
 import 'package:provider/provider.dart';
 
-class HomeUseravatar extends StatefulWidget {
-  const HomeUseravatar({super.key});
+class Useravatar extends StatefulWidget {
+  const Useravatar({super.key});
 
   @override
-  State<HomeUseravatar> createState() => _HomeUseravatarState();
+  State<Useravatar> createState() => _UseravatarState();
 }
 
-class _HomeUseravatarState extends State<HomeUseravatar> {
+class _UseravatarState extends State<Useravatar> {
   Future<void> _selectImage(BuildContext context) async {
     final XFile img = await pickImage(ImageSource.gallery);
-    if (img != null) {
-      final Uint8List imgBytes = await img.readAsBytes();
-      Provider.of<DrawerStateInfo>(
-        context,
-        listen: false,
-      ).setAvatarImage(imgBytes);
-    }
+    final Uint8List imgBytes = await img.readAsBytes();
+    Provider.of<DrawerStateInfo>(
+      context,
+      listen: false,
+    ).setAvatarImage(imgBytes);
   }
 
   @override

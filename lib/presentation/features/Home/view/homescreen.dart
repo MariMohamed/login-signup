@@ -8,7 +8,8 @@ import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_drawer.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_navbar.dart';
-import 'package:login_signin/presentation/pages/view/app_cartpage.dart';
+import 'package:login_signin/presentation/features/pages/view/app_cartpage.dart';
+import 'package:login_signin/presentation/features/pages/widget/home_buttonCollection.dart';
 import 'package:login_signin/presentation/widget/app_cardGrid.dart';
 import 'package:login_signin/presentation/widget/app_textfield.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
@@ -49,13 +50,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0, top: 8),
                   child: Center(
-                    child: IconButton(
-                      onPressed: () =>
-                          AppRouter.transition(context, Cartpage()),
-                      icon: SvgPicture.asset(
-                        AppAssets.notification,
-                        fit: BoxFit.cover,
-                      ),
+                    child: Stack(
+                      children: [
+                        IconButton(
+                          onPressed: () =>
+                              AppRouter.transition(context, Cartpage()),
+                          icon: SvgPicture.asset(
+                            AppAssets.notification,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 20,
+                          right: 20,
+                          child: Container(
+                            width: 18,
+                            height: 18,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.red,
+                              border: Border.all(color: Colors.white, width: 1),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Center(
+                                child: Text(
+                                  appData.usercart?.products.length
+                                          .toString() ??
+                                      "0",
+                                  style: TextStyles.w600Style.copyWith(
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -117,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 166,
                                 height: 86,
                                 child: Column(
@@ -155,7 +186,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  CardGrid(products: appData.products),
+                  //CardGrid(products: appData.products),
+                  Buttoncollection(),
                 ],
               ),
             ),

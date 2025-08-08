@@ -3,7 +3,7 @@ import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
-import 'package:login_signin/presentation/pages/widget/app_counter.dart';
+import 'package:login_signin/presentation/features/pages/widget/app_counter.dart';
 import 'package:login_signin/presentation/widget/appbutton.dart';
 import 'package:provider/provider.dart';
 
@@ -16,14 +16,11 @@ class Addtocartview extends StatefulWidget {
 }
 
 class _AddtocartviewState extends State<Addtocartview> {
+  int quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     final appData = Provider.of<AppDataProvider>(context);
-    late int quantity = 1;
-    CartProduct cartProduct = CartProduct(
-      productId: widget.product.id,
-      quantity: quantity,
-    );
 
     return Column(
       children: [
@@ -36,8 +33,22 @@ class _AddtocartviewState extends State<Addtocartview> {
         AppButton(
           title: AppStrings.addtoCart,
           onPressed: () async {
+            CartProduct cartProduct = CartProduct(
+              productId: widget.product.id,
+              quantity: quantity,
+            );
             try {
-              appData.usercart!.products.add(cartProduct);
+              final existingIndex = appData.usercart!.products.indexWhere(
+                (product) => product.productId == cartProduct.productId,
+              );
+
+              // 3. Add or update logic
+              if (existingIndex == -1) {
+                appData.usercart!.products.add(cartProduct);
+              } else {
+                appData.usercart!.products[existingIndex].quantity +=
+                    cartProduct.quantity;
+              }
               await Provider.of<AppDataProvider>(
                 context,
                 listen: false,
@@ -46,7 +57,7 @@ class _AddtocartviewState extends State<Addtocartview> {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
-              return null;
+              return;
             }
           },
         ),
