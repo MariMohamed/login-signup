@@ -3,14 +3,14 @@ import 'package:login_signin/core/remote/api_keys.dart';
 class Product {
   final int id;
   final String title;
-  final num price;
+  num price;
   final String description;
   final String category;
   final String image;
   final Map<String, dynamic> rating;
   final int? quantity;
 
-  const Product({
+  Product({
     required this.id,
     required this.title,
     required this.price,
@@ -33,15 +33,24 @@ class Product {
     );
   }
 
-  Product copyWith({int? quantity}) {
+  Product copyWith({
+    int? id,
+    String? title,
+    num? price,
+    String? description,
+    String? category,
+    String? image,
+    Map<String, dynamic>? rating,
+    int? quantity,
+  }) {
     return Product(
-      id: id,
-      title: title,
-      price: price,
-      description: description,
-      category: category,
-      image: image,
-      rating: rating,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      price: price ?? this.price,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      image: image ?? this.image,
+      rating: rating ?? this.rating,
       quantity: quantity ?? this.quantity,
     );
   }

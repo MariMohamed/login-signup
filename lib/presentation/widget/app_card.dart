@@ -4,7 +4,7 @@ import 'package:login_signin/core/app_assets.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/products_model.dart';
-import 'package:login_signin/presentation/features/pages/view/product_page.dart';
+import 'package:login_signin/presentation/features/productlist/view/product_page.dart';
 
 class AppCard extends StatelessWidget {
   const AppCard({super.key, required this.product});

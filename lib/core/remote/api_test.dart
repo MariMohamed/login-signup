@@ -8,15 +8,7 @@ void main() async {
   try {
     // Example GET request
     print('Fetching ...');
-    final response = await apiService.post(
-      data: Cart(
-        id: DateTime.now().millisecondsSinceEpoch,
-        date: DateTime.now().toIso8601String(),
-        userId: 12,
-        products: [],
-      ).toJson(),
-      path: ApiConstants.carts,
-    );
+    final response = await apiService.get(path: ApiConstants.carts);
     print('Response data: ${response.data}');
   } catch (e) {
     print('Error: $e');

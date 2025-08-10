@@ -154,7 +154,6 @@ class AppDataProvider with ChangeNotifier {
         ),
       );
 
-      // If new cart was created, add it to the backend
       if (!_carts.any((cart) => cart.userId == _currentUser?.id)) {
         await _cartController.addCart(_usercart!, context);
         _carts.add(_usercart!);
@@ -171,23 +170,57 @@ class AppDataProvider with ChangeNotifier {
     _cartController.updatecart(cart, context);
     notifyListeners();
   }
+
+  Future<void> deletecart(Cart cart, context) async {
+    _cartController.deleteCart(cart, context);
+    notifyListeners();
+  }
+
+  Future<void> updateUser(User user, context) async {
+    _currentUser = await _userListController.updateUser(user, context);
+
+    notifyListeners();
+  }
+
+  Future<void> deleteuser(User user, context) async {
+    await _userListController.deleteUser(user, context);
+    final index = _users.indexWhere((users) => users.id == user.id);
+    if (index != -1) {
+      _users.removeAt(index);
+    }
+    notifyListeners();
+  }
+
+  Future<void> deleteproduct(Product product, context) async {
+    await _productController.deleteProduct(product, context);
+    final index = _products.indexWhere(
+      (listproduct) => listproduct.id == product.id,
+    );
+    if (index != -1) {
+      _products.removeAt(index);
+    }
+    final cartindex = _usercart!.products.indexWhere(
+      (listproduct) => listproduct.productId == product.id,
+    );
+    if (cartindex != -1) {
+      _usercart!.products.removeAt(cartindex);
+    }
+    notifyListeners();
+  }
+
+  Future<void> updateproduct(Product updatedProduct, context) async {
+    await _productController.updateProduct(updatedProduct);
+    final index = _products.indexWhere((p) => p.id == updatedProduct.id);
+    if (index != -1) {
+      _products[index] = updatedProduct;
+      notifyListeners();
+    }
+    notifyListeners();
+  }
+
+  Future<void> addproduct(Product product, context) async {
+    await _productController.addProduct(product);
+    _products.add(product);
+    notifyListeners();
+  }
 }
-
-
-  // Future<void> updateUser(String userId, User updatedUser) async {
-  //   try {
-  //     _isLoading = true;
-  //     notifyListeners();
-      
-  //     await _userListController.updateUser(userId, updatedUser);
-  //     _users = _users.map((user) => 
-  //         user.id == userId ? updatedUser : user).toList();
-      
-  //   } catch (e) {
-  //     throw Exception('Failed to update user: $e');
-  //   } finally {
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
-

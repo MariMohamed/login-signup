@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:login_signin/core/app_assets.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
-import 'package:login_signin/presentation/features/pages/view/profile_page.dart';
+import 'package:login_signin/presentation/features/userlist/view/profile_page.dart';
 
 class HomeNavbar extends StatelessWidget {
   const HomeNavbar({super.key});

@@ -34,4 +34,18 @@ class AppStrings {
   static const String addtoCart = "Add To Cart";
   static const String search = "What are you looking for...";
   static const String profile = "Profile";
+  static const String nameIsValid = "Name is Required";
+  static const String nameNotValid = "Name must contain letters only";
+
+  static const String deleteAccount = "Delete Account";
+  static const String addProduct = "Add Product";
+  static const String id = 'id';
+  static const String title = 'title';
+  static const String price = 'price';
+  static const String description = 'description';
+  static const String category = 'category';
+  static const String image = 'image';
+  static const String rating = 'rating';
+  static const String quantity = 'quantity';
+  static const String update = 'Update';
 }

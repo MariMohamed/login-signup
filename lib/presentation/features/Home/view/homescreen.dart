@@ -6,10 +6,9 @@ import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
-import 'package:login_signin/presentation/features/Home/widgets/home_drawer.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_navbar.dart';
-import 'package:login_signin/presentation/features/pages/view/app_cartpage.dart';
-import 'package:login_signin/presentation/features/pages/widget/home_buttonCollection.dart';
+import 'package:login_signin/presentation/features/cartlist/view/app_cartpage.dart';
+import 'package:login_signin/presentation/features/Home/widgets/home_buttonCollection.dart';
 import 'package:login_signin/presentation/widget/app_cardGrid.dart';
 import 'package:login_signin/presentation/widget/app_textfield.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
@@ -159,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyles.w400s14Style,
                                     ),
                                     Text(
-                                      'Get 40% Off for all iteams',
+                                      'Get 40% Off for all items',
                                       style: TextStyles.w700Style,
                                     ),
                                   ],

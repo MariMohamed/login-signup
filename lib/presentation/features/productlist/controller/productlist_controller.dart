@@ -36,7 +36,7 @@ class ProductListController {
     }
   }
 
-  Future<Product> addProduct(Product product) async {
+  Future<void> addProduct(Product product) async {
     try {
       final response = await apiService.post(
         path: ApiConstants.products,
@@ -44,8 +44,8 @@ class ProductListController {
       );
       final Map<String, dynamic> data = response.data;
       // debugPrint(response.data.runtimeType.toString());
-      if (response.statusCode == 200) {
-        return Product.fromJson(data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return;
       }
       throw Exception(
         'Failed to add product: Status code ${response.statusCode}',
@@ -55,15 +55,15 @@ class ProductListController {
     }
   }
 
-  Future<Product> updateProduct(Product product) async {
+  Future<void> updateProduct(Product product) async {
     try {
       final response = await apiService.update(
         path: '${ApiConstants.products}/${product.id}',
         data: product.toJson(),
       );
       final Map<String, dynamic> data = response.data;
-      if (response.statusCode == 200) {
-        return Product.fromJson(data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return;
       }
       throw Exception(
         'Failed to update product: Status code ${response.statusCode}',
@@ -78,13 +78,14 @@ class ProductListController {
       final response = await apiService.delete(
         path: '${ApiConstants.products}/${product.id}',
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Product deleted successfully'),
             duration: const Duration(seconds: 2),
           ),
         );
+        return;
       }
       throw Exception(
         'Failed to update product: Status code ${response.statusCode}',

@@ -7,6 +7,7 @@ import 'package:login_signin/core/data/user_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/validator/app_validator_types/confirmpassword_validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/email_validator.dart';
+import 'package:login_signin/core/validator/app_validator_types/name__validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/password_validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/phoneNumber_validator.dart';
 import 'package:login_signin/presentation/features/auth/login.dart';
@@ -52,12 +53,18 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
       emailValidator.isValid &&
       passwordValidator.isValid &&
       confirmPasswordValidator.isValid &&
+      firstNameValidator.isValid &&
+      lastNameValidator.isValid &&
+      userNameValidator.isValid &&
       phoneAppValidator.isValid;
 
   final emailValidator = EmailAppValidator();
   final passwordValidator = PasswordAppValidator();
   final confirmPasswordValidator = ConfirmPasswordAppValidator();
   final PhoneAppValidator phoneAppValidator = PhoneAppValidator();
+  final NameValidator firstNameValidator = NameValidator();
+  final NameValidator lastNameValidator = NameValidator();
+  final NameValidator userNameValidator = NameValidator();
   late String _firstName;
   late String _lastName;
   late String _userName;
@@ -98,16 +105,27 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
                 children: [
                   AppTextField(
                     controller: _firstNameController,
-                    onChange: (v) {},
+                    onChange: (v) {
+                      setState(() {
+                        firstNameValidator.setValue(v);
+                      });
+                    },
                     width: 200,
                     hint: AppStrings.firstName,
+                    validator: firstNameValidator,
+
                     onSaved: (value) => setState(() {
                       _firstName = _firstNameController.text;
                     }),
                   ),
                   AppTextField(
                     controller: _lastNameController,
-                    onChange: (v) {},
+                    onChange: (v) {
+                      setState(() {
+                        lastNameValidator.setValue(v);
+                      });
+                    },
+                    validator: lastNameValidator,
                     width: 200,
                     hint: AppStrings.lastName,
                     onSaved: (value) => setState(() {
@@ -118,7 +136,12 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
               ),
               AppTextField(
                 controller: _userNameController,
-                onChange: (v) {},
+                onChange: (v) {
+                  setState(() {
+                    userNameValidator.setValue(v);
+                  });
+                },
+                validator: userNameValidator,
                 hint: AppStrings.username,
                 onSaved: (value) => setState(() {
                   _userName = _userNameController.text;

@@ -3,7 +3,7 @@ import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
-import 'package:login_signin/presentation/features/pages/widget/app_counter.dart';
+import 'package:login_signin/presentation/widget/app_counter.dart';
 import 'package:provider/provider.dart';
 
 class CartProductcard extends StatelessWidget {

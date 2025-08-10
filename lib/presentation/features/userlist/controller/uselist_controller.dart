@@ -86,8 +86,7 @@ class UserListController {
 
   Future<void> deleteUser(User user, context) async {
     try {
-      final response = await apiService.update(
-        data: user.toJson(),
+      final response = await apiService.delete(
         path: '${ApiConstants.users}/${user.id}',
       );
 
