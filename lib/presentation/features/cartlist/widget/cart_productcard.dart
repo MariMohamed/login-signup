@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:login_signin/core/app_assets.dart';
+import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_strings.dart';
+import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
@@ -13,83 +17,75 @@ class CartProductcard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppColors.white,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 16,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.network(
-                  product.image,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.contain,
-                ),
-                Expanded(
-                  child: Text(
-                    product.title,
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      "\$${product.price.toStringAsFixed(2)}",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    if (product.quantity != null)
-                      Text(
-                        "Qty: ${product.quantity}",
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
-                      ),
-                  ],
-                ),
-              ],
+            Image.network(
+              product.image,
+              width: 80,
+              height: 80,
+              fit: BoxFit.contain,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  child: Row(
+
+            SizedBox(
+              height: 110,
+              width: 290,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                spacing: 8,
+                children: [
+                  Expanded(
+                    child: Text(
+                      product.title,
+                      style: TextStyles.w400s14Style,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    "\$${product.price.toStringAsFixed(2)}",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.delete_forever_rounded),
-                      Text(AppStrings.remove),
+                      Counter(
+                        initNumber: product.quantity,
+                        counterCallback: (v) async {
+                          product.copyWith(quantity: v);
+                          cart.products
+                                  .firstWhere(
+                                    (item) => item.productId == product.id,
+                                  )
+                                  .quantity =
+                              v;
+                          await Provider.of<AppDataProvider>(
+                            context,
+                            listen: false,
+                          ).updatecart(cart, context);
+                        },
+                      ),
+                      IconButton(
+                        icon: SvgPicture.asset(AppAssets.trash),
+                        onPressed: () async {
+                          cart.products.removeWhere(
+                            (item) => item.productId == product.id,
+                          );
+                          await Provider.of<AppDataProvider>(
+                            context,
+                            listen: false,
+                          ).updatecart(cart, context);
+                        },
+                      ),
                     ],
                   ),
-                  onPressed: () async {
-                    cart.products.removeWhere(
-                      (item) => item.productId == product.id,
-                    );
-                    await Provider.of<AppDataProvider>(
-                      context,
-                      listen: false,
-                    ).updatecart(cart, context);
-                  },
-                ),
-                Counter(
-                  initNumber: product.quantity,
-                  counterCallback: (v) async {
-                    product.copyWith(quantity: v);
-                    cart.products
-                            .firstWhere((item) => item.productId == product.id)
-                            .quantity =
-                        v;
-                    await Provider.of<AppDataProvider>(
-                      context,
-                      listen: false,
-                    ).updatecart(cart, context);
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

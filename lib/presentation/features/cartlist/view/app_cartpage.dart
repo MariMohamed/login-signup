@@ -7,6 +7,7 @@ import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/cartlist/widget/cart_productcard.dart';
+import 'package:login_signin/presentation/widget/AppBackbutton.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -39,14 +40,16 @@ class _CartpageState extends State<Cartpage> {
         child: Text("No cart"), // Or a "No cart" message
       );
     }
+    int subTotal = 0;
+    cartProducts.map((product) {
+      product.price += subTotal;
+    });
     return appData.isLoading
         ? Center(child: CircularProgressIndicator())
         : CustomScaffold(
             appBar: AppBar(
-              leading: IconButton(
-                icon: SvgPicture.asset(AppAssets.backarrow), // Custom back icon
-                onPressed: () => Navigator.pop(context),
-              ),
+              toolbarHeight: 48,
+              leading: appBackButton(),
               actions: [
                 IconButton(
                   onPressed: () async {
@@ -60,7 +63,6 @@ class _CartpageState extends State<Cartpage> {
                     if (index != -1) {
                       appData.carts.removeAt(index);
                     }
-                    print(appData.usercart);
                     await Provider.of<AppDataProvider>(
                       context,
                       listen: false,
@@ -71,21 +73,24 @@ class _CartpageState extends State<Cartpage> {
                 ),
               ],
 
-              title: Text(AppStrings.cart, style: TextStyles.w600s16Style),
+              title: Text(AppStrings.cart, style: TextStyles.w600s24Style),
               centerTitle: true,
             ),
             body: cartProducts.isEmpty
                 ? const Center(child: Text('Your cart is empty'))
-                : ListView.builder(
-                    itemCount: cartProducts.length,
-                    itemBuilder: (buildcontext, index) {
-                      return ScaledAnimation(
-                        child: CartProductcard(
-                          product: cartProducts[index],
-                          cart: appData.usercart!,
-                        ),
-                      );
-                    },
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ListView.builder(
+                      itemCount: cartProducts.length,
+                      itemBuilder: (buildcontext, index) {
+                        return ScaledAnimation(
+                          child: CartProductcard(
+                            product: cartProducts[index],
+                            cart: appData.usercart!,
+                          ),
+                        );
+                      },
+                    ),
                   ),
           );
   }

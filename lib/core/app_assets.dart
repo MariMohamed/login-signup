@@ -11,4 +11,7 @@ class AppAssets {
   static const String profile = 'assets/icons/profile.svg';
   static const String home = 'assets/icons/home.svg';
   static const String backarrow = 'assets/icons/arrow.svg';
+  static const String trash = "assets/icons/trash-2.svg";
+  static const String minus = "assets/icons/minus.svg";
+  static const String plus = "assets/icons/plus.svg";
 }

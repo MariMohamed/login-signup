@@ -42,4 +42,10 @@ class TextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w600,
   );
+
+  static const TextStyle w600s24Style = TextStyle(
+    color: AppColors.black,
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+  );
 }

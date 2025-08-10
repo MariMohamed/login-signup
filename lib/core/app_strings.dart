@@ -48,4 +48,9 @@ class AppStrings {
   static const String rating = 'rating';
   static const String quantity = 'quantity';
   static const String update = 'Update';
+  static const String subtotal = 'Sub total';
+
+  static const String shipping = 'Shipping';
+
+  static const String total = 'Total';
 }
