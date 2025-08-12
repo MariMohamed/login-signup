@@ -8,4 +8,5 @@ class AppColors {
   static const Color white = Color.fromARGB(255, 255, 255, 255);
   static const Color lightgray = Color(0xFF4F5663);
   static const Color container = Color.fromARGB(255, 244, 244, 244);
+  static const Color transperntGrey = Color.fromRGBO(230, 234, 244, 0.5);
 }

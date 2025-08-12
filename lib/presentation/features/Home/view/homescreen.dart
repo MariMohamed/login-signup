@@ -59,32 +59,32 @@ class _HomeScreenState extends State<HomeScreen> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        Positioned(
-                          top: 20,
-                          right: 20,
-                          child: Container(
-                            width: 18,
-                            height: 18,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.red,
-                              border: Border.all(color: Colors.white, width: 1),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: Center(
-                                child: Text(
-                                  appData.usercart?.products.length
-                                          .toString() ??
-                                      "0",
-                                  style: TextStyles.w600Style.copyWith(
-                                    color: AppColors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   top: 20,
+                        //   right: 20,
+                        //   child: Container(
+                        //     width: 18,
+                        //     height: 18,
+                        //     decoration: BoxDecoration(
+                        //       shape: BoxShape.circle,
+                        //       color: AppColors.red,
+                        //       border: Border.all(color: Colors.white, width: 1),
+                        //     ),
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.all(0.0),
+                        //       child: Center(
+                        //         child: Text(
+                        //           appData.usercart?.products.length
+                        //                   .toString() ??
+                        //               "0",
+                        //           style: TextStyles.w600Style.copyWith(
+                        //             color: AppColors.white,
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

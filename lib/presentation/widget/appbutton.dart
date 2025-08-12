@@ -4,15 +4,17 @@ class AppButton extends StatelessWidget {
   const AppButton({
     super.key,
     required this.onPressed,
-    this.child,
+    this.prefix,
     this.title = '',
     this.style,
     this.backgroundColor,
     this.width = 100,
     this.height,
+    this.suffix,
   });
   final VoidCallback onPressed;
-  final Widget? child;
+  final Widget? prefix;
+  final Widget? suffix;
   final String? title;
   final TextStyle? style;
   final Color? backgroundColor;
@@ -33,8 +35,11 @@ class AppButton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child:
-            child ??
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 8,
+          children: [
+            prefix ?? SizedBox(width: 1),
             Text(
               title!,
               //
@@ -42,6 +47,9 @@ class AppButton extends StatelessWidget {
 
               //
             ),
+            suffix ?? SizedBox(width: 1),
+          ],
+        ),
       ),
     );
   }

@@ -31,6 +31,7 @@ class _AddtocartviewState extends State<Addtocartview> {
           }),
         ),
         AppButton(
+          width: double.maxFinite,
           title: AppStrings.addtoCart,
           onPressed: () async {
             CartProduct cartProduct = CartProduct(

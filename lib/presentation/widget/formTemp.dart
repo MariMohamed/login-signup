@@ -37,7 +37,7 @@ class _FormTemplateState extends State<FormTemplate>
             }
           : () {},
       backgroundColor: widget.enabled ? AppColors.main : AppColors.grey,
-      child: Text(widget.submitMessage),
+      title: widget.submitMessage,
     );
   }
 

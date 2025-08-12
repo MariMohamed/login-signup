@@ -75,6 +75,33 @@ class AppCard extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(60)),
+                            color: AppColors.transperntGrey,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.transperntGrey,
+                                offset: Offset(0, 0), // X: 0, Y: 0
+                                blurRadius: 11.25, // Blur: 11.25
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: SvgPicture.asset(
+                            AppAssets.heart,
+                            width: 18,
+                            height: 18,
+
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(width: 10),
@@ -89,7 +116,7 @@ class AppCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        '£${product.price} ',
+                        '\$${product.price} ',
                         style: TextStyles.w600s14Style,
                       ),
                     ],

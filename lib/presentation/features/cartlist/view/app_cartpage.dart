@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login_signin/core/animation/scale_animation.dart';
 import 'package:login_signin/core/app_assets.dart';
+import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/cartlist/widget/cart_productcard.dart';
 import 'package:login_signin/presentation/widget/AppBackbutton.dart';
+import 'package:login_signin/presentation/widget/appbutton.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -40,10 +42,12 @@ class _CartpageState extends State<Cartpage> {
         child: Text("No cart"), // Or a "No cart" message
       );
     }
-    int subTotal = 0;
-    cartProducts.map((product) {
-      product.price += subTotal;
+    double subTotal = 0;
+    cartProducts.forEach((product) {
+      subTotal += product.price * product.quantity!;
     });
+    double shipping = 5;
+    double total = subTotal + shipping;
     return appData.isLoading
         ? Center(child: CircularProgressIndicator())
         : CustomScaffold(
@@ -80,16 +84,89 @@ class _CartpageState extends State<Cartpage> {
                 ? const Center(child: Text('Your cart is empty'))
                 : Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: ListView.builder(
-                      itemCount: cartProducts.length,
-                      itemBuilder: (buildcontext, index) {
-                        return ScaledAnimation(
-                          child: CartProductcard(
-                            product: cartProducts[index],
-                            cart: appData.usercart!,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: cartProducts.length,
+                            itemBuilder: (buildcontext, index) {
+                              return ScaledAnimation(
+                                child: CartProductcard(
+                                  product: cartProducts[index],
+                                  cart: appData.usercart!,
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0, top: 16),
+                          child: SizedBox(
+                            width: 335,
+
+                            child: Column(
+                              spacing: 16,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      AppStrings.subtotal,
+                                      style: TextStyles.w400s14Style,
+                                    ),
+                                    Text(
+                                      "\$$subTotal",
+                                      style: TextStyles.w600s16Style,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      AppStrings.shipping,
+                                      style: TextStyles.w400s14Style,
+                                    ),
+                                    Text(
+                                      "\$$shipping",
+                                      style: TextStyles.w600s16Style,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      AppStrings.total,
+                                      style: TextStyles.w400s14Style,
+                                    ),
+                                    Text(
+                                      "\$$total",
+                                      style: TextStyles.w600s16Style,
+                                    ),
+                                  ],
+                                ),
+                                AppButton(
+                                  onPressed: () {},
+                                  backgroundColor: AppColors.black,
+                                  width: 335,
+                                  height: 49,
+                                  title: AppStrings.checkOut,
+                                  suffix: Center(
+                                    child: SvgPicture.asset(
+                                      AppAssets.arrow,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
           );

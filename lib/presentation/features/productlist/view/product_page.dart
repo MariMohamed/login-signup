@@ -96,7 +96,7 @@ class ProductPage extends StatelessWidget {
                             ),
 
                             Text(
-                              '£${product.price} ',
+                              '\$${product.price} ',
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                           ],

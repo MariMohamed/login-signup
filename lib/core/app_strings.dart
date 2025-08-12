@@ -53,4 +53,5 @@ class AppStrings {
   static const String shipping = 'Shipping';
 
   static const String total = 'Total';
+  static const String checkOut = 'Checkout';
 }
