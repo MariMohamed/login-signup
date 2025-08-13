@@ -1,10 +1,19 @@
+import 'package:hive/hive.dart';
+import 'package:login_signin/core/data/cartProduct_model.dart';
 import 'package:login_signin/core/remote/api_keys.dart';
+part 'cart_model.g.dart';
 
+@HiveType(typeId: 0)
 class Cart {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String date;
+  @HiveField(2)
   final int userId;
+  @HiveField(3)
   final List<CartProduct> products;
+  @HiveField(4)
   final int version;
 
   const Cart({
@@ -32,24 +41,5 @@ class Cart {
     ApiKeys.userId: userId,
     ApiKeys.products: products.map((product) => product.toJson()).toList(),
     ApiKeys.v: version,
-  };
-}
-
-class CartProduct {
-  final int productId;
-  int quantity;
-
-  CartProduct({required this.productId, required this.quantity});
-
-  factory CartProduct.fromJson(Map<String, dynamic> json) {
-    return CartProduct(
-      productId: json[ApiKeys.productId] as int,
-      quantity: json[ApiKeys.quantity] as int,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    ApiKeys.productId: productId,
-    ApiKeys.quantity: quantity,
   };
 }

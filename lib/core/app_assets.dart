@@ -14,4 +14,5 @@ class AppAssets {
   static const String trash = "assets/icons/trash-2.svg";
   static const String minus = "assets/icons/minus.svg";
   static const String plus = "assets/icons/plus.svg";
+  static const String upArrows = "assets/icons/Uparrows.svg";
 }

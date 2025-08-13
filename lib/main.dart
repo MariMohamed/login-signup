@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_router.dart';
+import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/providers/app_drawerStateManager.dart';
 import 'package:login_signin/core/manager/theme/app_theme.dart';
@@ -9,8 +10,9 @@ import 'package:login_signin/presentation/features/auth/login.dart';
 import 'package:login_signin/presentation/features/auth/signup.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesManager.init();
   runApp(const MyApp());
 }
 

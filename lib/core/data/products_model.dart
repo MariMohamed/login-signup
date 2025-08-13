@@ -1,13 +1,25 @@
+import 'package:hive/hive.dart';
 import 'package:login_signin/core/remote/api_keys.dart';
 
+part 'products_model.g.dart';
+
+@HiveType(typeId: 2)
 class Product {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String title;
+  @HiveField(2)
   num price;
+  @HiveField(3)
   final String description;
+  @HiveField(4)
   final String category;
+  @HiveField(5)
   final String image;
+  @HiveField(6)
   final Map<String, dynamic> rating;
+  @HiveField(7)
   final int? quantity;
 
   Product({

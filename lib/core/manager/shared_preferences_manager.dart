@@ -21,16 +21,16 @@ class SharedPreferencesManager {
     return await _pref.remove(_tokenKey);
   }
 
-  // Is Guest
-  static Future<void> setIsGuest({required bool isGuest}) async {
-    await _pref.setBool(_isGuestKey, isGuest);
-  }
+  // // Is Guest
+  // static Future<void> setIsGuest({required bool isGuest}) async {
+  //   await _pref.setBool(_isGuestKey, isGuest);
+  // }
 
-  static bool? getIsGuest() {
-    return _pref.getBool(_isGuestKey);
-  }
+  // static bool? getIsGuest() {
+  //   return _pref.getBool(_isGuestKey);
+  // }
 
-  static Future<bool> removeIsGuest() async {
-    return await _pref.remove(_isGuestKey);
-  }
+  // static Future<bool> removeIsGuest() async {
+  //   return await _pref.remove(_isGuestKey);
+  // }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_strings.dart';
+import 'package:login_signin/core/data/cartProduct_model.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
