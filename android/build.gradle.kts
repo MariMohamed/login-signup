@@ -3,6 +3,19 @@ allprojects {
         google()
         mavenCentral()
     }
+    
+buildscript {
+    ext.kotlin_version = '1.9.22' // Match Flutter's recommended version
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.3.1' // Flutter-compatible version
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.1' // Add this line
+    }
+}
 }
 
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
