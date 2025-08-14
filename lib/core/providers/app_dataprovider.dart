@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/data/user_model.dart';
+import 'package:login_signin/core/hive/hive_setup.dart';
+import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/presentation/features/auth/controller/auth_controller.dart';
 import 'package:login_signin/presentation/features/cartlist/controller/cartlist_controller.dart';
 import 'package:login_signin/presentation/features/productlist/controller/productlist_controller.dart';
@@ -13,7 +17,7 @@ class AppDataProvider with ChangeNotifier {
   final ProductListController _productController = ProductListController();
   final UserListController _userListController = UserListController();
   final AuthController _authController = AuthController();
-
+  final _hiveBox = Hive.box(cacheKey);
   bool _isLoading = true;
   List<Cart> _carts = [];
   List<Product> _products = [];
@@ -45,6 +49,8 @@ class AppDataProvider with ChangeNotifier {
       _users = results[2];
       _isLoading = false;
       _currentUser;
+      _hiveBox.put(0, results[0]);
+      _hiveBox.put(2, results[1]);
     } catch (e) {
       _isLoading = false;
       // Handle error as needed
@@ -106,6 +112,7 @@ class AppDataProvider with ChangeNotifier {
       password: password,
       context: context,
     );
+
     //_initializeUserCart(context);
   }
 
@@ -222,5 +229,27 @@ class AppDataProvider with ChangeNotifier {
     await _productController.addProduct(product);
     _products.add(product);
     notifyListeners();
+  }
+
+  Future<bool> initializeUserFromToken(BuildContext context) async {
+    try {
+      // Get stored user credentials (if you're storing them)
+      final storedUser = SharedPreferencesManager.getUser();
+      final token = SharedPreferencesManager.getToken();
+
+      if (storedUser != null && token != null) {
+        // Initialize current user from stored data
+        await setCurrentUser([storedUser[0], storedUser[1]]);
+        await initializeUserCart(context);
+
+        // Navigate to home screen
+        AppRouter.push(context, Routes.home);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      throw Exception('Session expired. Please login again.');
+    }
   }
 }

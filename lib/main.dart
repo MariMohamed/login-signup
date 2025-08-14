@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_router.dart';
+import 'package:login_signin/core/hive/hive_setup.dart';
 import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/providers/app_drawerStateManager.dart';
@@ -13,6 +14,8 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesManager.init();
+  await HiveSetup.init();
+
   runApp(const MyApp());
 }
 

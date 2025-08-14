@@ -28,6 +28,7 @@ class _FormTemplateState extends State<FormTemplate>
 
   Widget validButton() {
     return AppButton(
+      width: 150,
       onPressed: widget.enabled
           ? () {
               if (_formGlobalKey.currentState?.validate() ?? false) {

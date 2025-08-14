@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/data/auth_model.dart';
+import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/remote/api_constants.dart';
+import 'package:login_signin/core/remote/api_keys.dart';
 import 'package:login_signin/core/remote/api_service.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +35,13 @@ class AuthController {
           context,
           listen: false,
         ).initializeUserCart(context);
+        await SharedPreferencesManager.setToken(
+          token: response.data[ApiKeys.token],
+        );
+        await SharedPreferencesManager.setUser(
+          username: username,
+          password: password,
+        );
 
         if (context.mounted) {
           await AppRouter.push(context, Routes.home);

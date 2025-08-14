@@ -6,6 +6,7 @@ import 'package:login_signin/core/animation/vertical_animation.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
+import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/auth/signup.dart';
 import 'package:login_signin/presentation/widget/app_center.dart';
@@ -38,24 +39,70 @@ class _LogInState extends State<LogIn> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final args = ModalRoute.of(context)?.settings.arguments as Map?;
-      if (args?["showToast"] == true) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _checkAutoLogin();
+      await _handleLogout();
+    });
+  }
+
+  Future<void> _handleLogout() async {
+    final args = ModalRoute.of(context)?.settings.arguments as Map?;
+    if (args?["showToast"] == true) {
+      DelightToastBar(
+        snackbarDuration: Durations.short2,
+        animationDuration: Durations.short1,
+        position: DelightSnackbarPosition.top,
+        builder: (context) => const ToastCard(
+          leading: Icon(Icons.circle_notifications_rounded, size: 28),
+          title: Text(
+            "Logged out successfully",
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+          ),
+        ),
+      ).show(context);
+      Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
+    }
+  }
+
+  Future<void> _checkAutoLogin() async {
+    try {
+      final appData = Provider.of<AppDataProvider>(context, listen: false);
+      while (appData.isLoading) {
+        await Future.delayed(const Duration(milliseconds: 10));
+        if (!mounted) return;
+      }
+      // Check if we should attempt auto-login
+      final shouldSkipLogin = await appData.initializeUserFromToken(context);
+
+      if (shouldSkipLogin && mounted) {
+        // If auto-login successful, show brief feedback
         DelightToastBar(
           snackbarDuration: Durations.short2,
           animationDuration: Durations.short1,
-          position: DelightSnackbarPosition.top,
           builder: (context) => const ToastCard(
-            leading: Icon(Icons.circle_notifications_rounded, size: 28),
+            leading: Icon(Icons.check_circle, size: 28, color: Colors.green),
             title: Text(
-              "Logged out successfully",
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+              "Auto login successful",
+              style: TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
         ).show(context);
         Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
       }
-    });
+    } catch (e) {
+      if (mounted) {
+        // Show error if auto-login fails
+        DelightToastBar(
+          snackbarDuration: Durations.short2,
+          animationDuration: Durations.short1,
+          builder: (context) => ToastCard(
+            leading: Icon(Icons.error_outline, size: 28, color: Colors.orange),
+            title: Text("Please login again"),
+          ),
+        ).show(context);
+        Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
+      }
+    }
   }
 
   @override

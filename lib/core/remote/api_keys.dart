@@ -20,4 +20,5 @@ class ApiKeys {
   static const String lastname = 'lastname';
   static const String productId = 'productId';
   static const String quantity = 'quantity';
+  static const String token = 'token';
 }

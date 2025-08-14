@@ -6,6 +6,7 @@ import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/user_model.dart';
+import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/validator/app_validator_types/confirmpassword_validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/email_validator.dart';
@@ -126,10 +127,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: const Text("Cancel"),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             AppRouter.pushArgument(context, Routes.logIn, {
                               "showToast": true,
                             });
+                            await SharedPreferencesManager.removeUser();
+                            await SharedPreferencesManager.removeToken();
                           },
                           child: const Text("log out"),
                         ),
