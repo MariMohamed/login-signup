@@ -1,6 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:login_signin/core/app_router.dart';
+import 'package:login_signin/core/connection/networkInfo.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/data/user_model.dart';
@@ -18,6 +20,7 @@ class AppDataProvider with ChangeNotifier {
   final UserListController _userListController = UserListController();
   final AuthController _authController = AuthController();
   final _hiveBox = Hive.box(cacheKey);
+  final NetworkInfo _networkInfo = NetworkInfo(connectivity: Connectivity());
   bool _isLoading = true;
   List<Cart> _carts = [];
   List<Product> _products = [];
@@ -31,32 +34,59 @@ class AppDataProvider with ChangeNotifier {
   List<User> get users => _users;
   User? get currentUser => _currentUser;
   Cart? get usercart => _usercart;
+  //get data offline
+  Future<void> _loadFromCache() async {
+    try {
+      final cachedCarts = _hiveBox.get(0, defaultValue: <Cart>[]) as List;
+      final cachedProducts = _hiveBox.get(2, defaultValue: <Product>[]) as List;
+      final cachedUsers = _hiveBox.get(3, defaultValue: <User>[]) as List;
+
+      // Safe type conversion with fallback
+      _carts = List<Cart>.from(cachedCarts.whereType<Cart>());
+      _products = List<Product>.from(cachedProducts.whereType<Product>());
+      _users = List<User>.from(cachedUsers.whereType<User>());
+
+      print('Cache loaded successfully');
+      _isLoading = false;
+    } catch (e) {
+      print('Cache loading error: $e');
+      // Fallback to empty lists
+      _carts = [];
+      _products = [];
+      _users = [];
+      _isLoading = false;
+    }
+  }
 
   // Load all data
   Future<void> loadData() async {
     _isLoading = true;
     notifyListeners();
+    if (await _networkInfo.isConnected) {
+      try {
+        final List<dynamic> results = await Future.wait([
+          _cartController.getCarts(),
+          _productController.getProducts(),
+          _userListController.getUsers(),
+        ]);
 
-    try {
-      final List<dynamic> results = await Future.wait([
-        _cartController.getCarts(),
-        _productController.getProducts(),
-        _userListController.getUsers(),
-      ]);
+        _carts = results[0];
+        _products = results[1];
+        _users = results[2];
+        _isLoading = false;
+        _currentUser;
+        _hiveBox.put(0, _carts);
+        _hiveBox.put(2, _products);
+        _hiveBox.put(3, _users);
+      } catch (e) {
+        _isLoading = false;
 
-      _carts = results[0];
-      _products = results[1];
-      _users = results[2];
-      _isLoading = false;
-      _currentUser;
-      _hiveBox.put(0, results[0]);
-      _hiveBox.put(2, results[1]);
-    } catch (e) {
-      _isLoading = false;
-      // Handle error as needed
-      rethrow;
-    } finally {
-      notifyListeners();
+        rethrow;
+      } finally {
+        notifyListeners();
+      }
+    } else {
+      _loadFromCache();
     }
   }
 

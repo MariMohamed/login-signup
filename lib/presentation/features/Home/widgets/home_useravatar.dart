@@ -18,15 +18,12 @@ class _UseravatarState extends State<Useravatar> {
   Future<void> _selectImage(BuildContext context) async {
     final XFile img = await pickImage(ImageSource.gallery);
     final Uint8List imgBytes = await img.readAsBytes();
-    Provider.of<DrawerStateInfo>(
-      context,
-      listen: false,
-    ).setAvatarImage(imgBytes);
+    Provider.of<ImageManager>(context, listen: false).setAvatarImage(imgBytes);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DrawerStateInfo>(
+    return Consumer<ImageManager>(
       builder: (context, state, _) {
         return Center(
           child: Stack(

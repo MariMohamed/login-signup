@@ -1,3 +1,4 @@
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login_signin/core/app_assets.dart';
@@ -7,6 +8,7 @@ import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
+import 'package:login_signin/presentation/widget/app_cachedImages.dart';
 import 'package:login_signin/presentation/widget/app_counter.dart';
 import 'package:provider/provider.dart';
 
@@ -25,8 +27,8 @@ class CartProductcard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 16,
           children: [
-            Image.network(
-              product.image,
+            ProductCachedImage(
+              product: product,
               width: 80,
               height: 80,
               fit: BoxFit.contain,

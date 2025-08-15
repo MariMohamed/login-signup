@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-class DrawerStateInfo with ChangeNotifier {
+class ImageManager with ChangeNotifier {
   int _currentDrawer = 0;
   Uint8List? _avatarImage;
 

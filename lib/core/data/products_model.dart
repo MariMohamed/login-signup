@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:hive/hive.dart';
 import 'package:login_signin/core/remote/api_keys.dart';
 
@@ -32,6 +34,7 @@ class Product {
     required this.rating,
     this.quantity,
   });
+  String get imageCacheKey => 'product_${id}_$image';
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(

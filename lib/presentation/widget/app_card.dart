@@ -1,3 +1,4 @@
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:login_signin/core/app_assets.dart';
@@ -5,6 +6,7 @@ import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/presentation/features/productlist/view/product_page.dart';
+import 'package:login_signin/presentation/widget/app_cachedImages.dart';
 
 class AppCard extends StatelessWidget {
   const AppCard({super.key, required this.product});
@@ -43,12 +45,7 @@ class AppCard extends StatelessWidget {
                         ),
                         width: 160,
                         height: 190,
-                        child: Image.network(
-                          product.image,
-                          width: 160,
-                          height: 190,
-                          fit: BoxFit.contain,
-                        ),
+                        child: ProductCachedImage(product: product),
                       ),
                       Positioned(
                         child: InkWell(

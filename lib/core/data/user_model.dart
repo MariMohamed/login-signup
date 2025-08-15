@@ -1,13 +1,24 @@
+import 'package:hive/hive.dart';
 import 'package:login_signin/core/remote/api_keys.dart';
+part 'user_model.g.dart';
 
+@HiveType(typeId: 3)
 class User {
+  @HiveField(0)
   final Map<String, dynamic>? address;
+  @HiveField(1)
   final int? id;
+  @HiveField(2)
   final String username;
+  @HiveField(3)
   final String password;
+  @HiveField(4)
   final String email;
+  @HiveField(5)
   final Map<String, dynamic> name;
+  @HiveField(6)
   final String phone;
+  @HiveField(7)
   final int v;
   const User({
     this.address,

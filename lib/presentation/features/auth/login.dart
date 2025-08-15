@@ -68,7 +68,7 @@ class _LogInState extends State<LogIn> {
     try {
       final appData = Provider.of<AppDataProvider>(context, listen: false);
       while (appData.isLoading) {
-        await Future.delayed(const Duration(milliseconds: 10));
+        await Future.delayed(const Duration(milliseconds: 1));
         if (!mounted) return;
       }
       // Check if we should attempt auto-login
