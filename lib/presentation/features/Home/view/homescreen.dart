@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login_signin/core/app_assets.dart';
 import 'package:login_signin/core/app_colors.dart';
@@ -9,6 +10,9 @@ import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_navbar.dart';
 import 'package:login_signin/presentation/features/cartlist/view/app_cartpage.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_buttonCollection.dart';
+import 'package:login_signin/presentation/features/productlist/controller/product_bloc.dart';
+import 'package:login_signin/presentation/features/productlist/controller/product_events.dart';
+import 'package:login_signin/presentation/features/productlist/controller/product_state.dart';
 import 'package:login_signin/presentation/widget/app_cardGrid.dart';
 import 'package:login_signin/presentation/widget/app_textfield.dart';
 import 'package:login_signin/presentation/widget/custom_scaffold.dart';
@@ -24,10 +28,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final appData = Provider.of<AppDataProvider>(context);
-    return appData.isLoading
-        ? Center(child: CircularProgressIndicator())
-        : CustomScaffold(
+    //final appData = Provider.of<AppDataProvider>(context);
+    BlocProvider.of<ProductBloc>(context).add(LoadProductsEvent());
+
+    return BlocBuilder<ProductBloc, ProductState>(
+      builder: (context, state) {
+        if (state is ProductsLoading) {
+          return CircularProgressIndicator();
+        } else if (state is ProductsLoaded) {
+          return CustomScaffold(
             navBar: HomeNavbar(),
             appBar: AppBar(
               backgroundColor: AppColors.white,
@@ -185,11 +194,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  //CardGrid(products: appData.products),
-                  Buttoncollection(),
+                  CardGrid(products: state.products),
+                  //Buttoncollection(),
                 ],
               ),
             ),
           );
+        } else if (state is ProductError) {
+          return Text(state.error);
+        }
+        return Container();
+      },
+    );
   }
 }

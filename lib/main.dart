@@ -1,5 +1,6 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/hive/hive_setup.dart';
 import 'package:login_signin/core/manager/shared_preferences_manager.dart';
@@ -7,9 +8,11 @@ import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/providers/app_drawerStateManager.dart';
 import 'package:login_signin/core/manager/theme/app_theme.dart';
 import 'package:login_signin/core/providers/app_themeSwitcher.dart';
+import 'package:login_signin/core/remote/api_service.dart';
 import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
 import 'package:login_signin/presentation/features/auth/login.dart';
 import 'package:login_signin/presentation/features/auth/signup.dart';
+import 'package:login_signin/presentation/features/productlist/controller/product_bloc.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -17,6 +20,7 @@ Future<void> main() async {
   await HiveSetup.init();
   await SharedPreferencesManager.init();
   await FastCachedImageConfig.init();
+
   runApp(const MyApp());
 }
 
@@ -35,6 +39,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AppDataProvider>(
           create: (context) => AppDataProvider()..loadData(),
         ),
+        BlocProvider(create: (_) => ProductBloc(apiService: ApiService())),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

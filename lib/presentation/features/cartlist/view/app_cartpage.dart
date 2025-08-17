@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:login_signin/core/animation/scale_animation.dart';
 import 'package:login_signin/core/app_assets.dart';
@@ -7,6 +8,8 @@ import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/app_textStyles.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
+import 'package:login_signin/presentation/features/cartlist/controller/cart_cubit.dart';
+import 'package:login_signin/presentation/features/cartlist/controller/cart_state.dart';
 import 'package:login_signin/presentation/features/cartlist/widget/cart_productcard.dart';
 import 'package:login_signin/presentation/widget/AppBackbutton.dart';
 import 'package:login_signin/presentation/widget/appbutton.dart';
@@ -25,32 +28,36 @@ class Cartpage extends StatefulWidget {
 class _CartpageState extends State<Cartpage> {
   @override
   Widget build(BuildContext context) {
-    final appData = Provider.of<AppDataProvider>(context);
-    List<Product> cartProducts;
-    if (appData.usercart!.products.isNotEmpty) {
-      cartProducts = appData.usercart!.products.map((cartProduct) {
-        final product = appData.products.firstWhere(
-          (p) => p.id == cartProduct.productId,
-        );
-        return product.copyWith(quantity: cartProduct.quantity);
-      }).toList();
-    } else {
-      cartProducts = [];
-    }
-    if (appData.usercart == null) {
-      return const Center(
-        child: Text("No cart"), // Or a "No cart" message
-      );
-    }
-    double subTotal = 0;
-    cartProducts.forEach((product) {
-      subTotal += product.price * product.quantity!;
-    });
-    double shipping = 5;
-    double total = subTotal + shipping;
-    return appData.isLoading
-        ? Center(child: CircularProgressIndicator())
-        : CustomScaffold(
+    // final appData = Provider.of<AppDataProvider>(context);
+    // List<Product> state.carts;
+    // if (appData.usercart!.products.isNotEmpty) {
+    //   state.carts = appData.usercart!.products.map((cartProduct) {
+    //     final product = appData.products.firstWhere(
+    //       (p) => p.id == cartProduct.productId,
+    //     );
+    //     return product.copyWith(quantity: cartProduct.quantity);
+    //   }).toList();
+    // } else {
+    //   state.carts = [];
+    // }
+    // if (appData.usercart == null) {
+    //   return const Center(
+    //     child: Text("No cart"), // Or a "No cart" message
+    //   );
+    // }
+    // double subTotal = 0;
+    // state.carts.forEach((product) {
+    //   subTotal += product.price * product.quantity!;
+    // });
+    // double shipping = 5;
+    // double total = subTotal + shipping;
+
+    BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        if (state is CartLoading) {
+          return CircularProgressIndicator();
+        } else if (state is CartLoaded) {
+          return CustomScaffold(
             appBar: AppBar(
               toolbarHeight: 48,
               leading: appBackButton(),
@@ -80,7 +87,7 @@ class _CartpageState extends State<Cartpage> {
               title: Text(AppStrings.cart, style: TextStyles.w600s24Style),
               centerTitle: true,
             ),
-            body: cartProducts.isEmpty
+            body: state.carts.isEmpty
                 ? const Center(child: Text('Your cart is empty'))
                 : Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -88,11 +95,11 @@ class _CartpageState extends State<Cartpage> {
                       children: [
                         Expanded(
                           child: ListView.builder(
-                            itemCount: cartProducts.length,
+                            itemCount: state.carts.length,
                             itemBuilder: (buildcontext, index) {
                               return ScaledAnimation(
                                 child: CartProductcard(
-                                  product: cartProducts[index],
+                                  product: state.carts[index],
                                   cart: appData.usercart!,
                                 ),
                               );
@@ -170,5 +177,8 @@ class _CartpageState extends State<Cartpage> {
                     ),
                   ),
           );
+        }
+      },
+    );
   }
 }

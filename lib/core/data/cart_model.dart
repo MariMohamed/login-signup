@@ -42,4 +42,19 @@ class Cart {
     ApiKeys.products: products.map((product) => product.toJson()).toList(),
     ApiKeys.v: version,
   };
+  Cart copyWith({
+    int? id,
+    String? date,
+    int? userId,
+    List<CartProduct>? products,
+    int? version,
+  }) {
+    return Cart(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      userId: userId ?? this.userId,
+      products: products ?? this.products,
+      version: version ?? this.version,
+    );
+  }
 }

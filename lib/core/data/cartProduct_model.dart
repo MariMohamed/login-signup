@@ -23,4 +23,10 @@ class CartProduct {
     ApiKeys.productId: productId,
     ApiKeys.quantity: quantity,
   };
+  CartProduct copyWith({int? productId, int? quantity}) {
+    return CartProduct(
+      productId: productId ?? this.productId,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 }
