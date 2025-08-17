@@ -135,6 +135,7 @@ class _CartpageState extends State<Cartpage> {
                                     ),
                                   ],
                                 ),
+                                SvgPicture.asset(AppAssets.dots),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -149,6 +150,7 @@ class _CartpageState extends State<Cartpage> {
                                     ),
                                   ],
                                 ),
+
                                 AppButton(
                                   onPressed: () {},
                                   backgroundColor: AppColors.black,

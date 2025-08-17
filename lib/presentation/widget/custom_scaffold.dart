@@ -10,15 +10,18 @@ class CustomScaffold extends StatelessWidget {
     this.drawer,
     this.navBar,
     this.appBar,
+    this.extend,
   });
   final Widget body;
   final Widget? drawer;
   final Widget? navBar;
   final PreferredSizeWidget? appBar;
+  final bool? extend;
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: true);
     return Scaffold(
+      extendBodyBehindAppBar: extend ?? false,
       backgroundColor: AppColors.white,
       drawer: drawer,
       bottomNavigationBar: navBar,
