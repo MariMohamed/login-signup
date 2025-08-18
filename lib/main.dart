@@ -1,4 +1,5 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/hive/hive_setup.dart';
@@ -14,6 +15,7 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await HiveSetup.init();
   await SharedPreferencesManager.init();
   await FastCachedImageConfig.init();
