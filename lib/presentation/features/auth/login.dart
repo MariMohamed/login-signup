@@ -6,6 +6,7 @@ import 'package:login_signin/core/animation/vertical_animation.dart';
 import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
+import 'package:login_signin/core/firebase/auth.dart';
 import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/auth/signup.dart';
@@ -40,7 +41,7 @@ class _LogInState extends State<LogIn> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _checkAutoLogin();
+      //await _checkAutoLogin();
       await _handleLogout();
     });
   }
@@ -64,50 +65,51 @@ class _LogInState extends State<LogIn> {
     }
   }
 
-  Future<void> _checkAutoLogin() async {
-    try {
-      final appData = Provider.of<AppDataProvider>(context, listen: false);
-      while (appData.isLoading) {
-        await Future.delayed(const Duration(milliseconds: 1));
-        if (!mounted) return;
-      }
-      // Check if we should attempt auto-login
-      final shouldSkipLogin = await appData.initializeUserFromToken(context);
+  // Future<void> _checkAutoLogin() async {
+  //   try {
+  //     final appData = Provider.of<AppDataProvider>(context, listen: false);
+  //     while (appData.isLoading) {
+  //       await Future.delayed(const Duration(milliseconds: 1));
+  //       if (!mounted) return;
+  //     }
+  //     // Check if we should attempt auto-login
+  //     final shouldSkipLogin = await appData.initializeUserFromToken(context);
 
-      if (shouldSkipLogin && mounted) {
-        // If auto-login successful, show brief feedback
-        DelightToastBar(
-          snackbarDuration: Durations.short2,
-          animationDuration: Durations.short1,
-          builder: (context) => const ToastCard(
-            leading: Icon(Icons.check_circle, size: 28, color: Colors.green),
-            title: Text(
-              "Auto login successful",
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-          ),
-        ).show(context);
-        Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
-      }
-    } catch (e) {
-      if (mounted) {
-        // Show error if auto-login fails
-        DelightToastBar(
-          snackbarDuration: Durations.short2,
-          animationDuration: Durations.short1,
-          builder: (context) => ToastCard(
-            leading: Icon(Icons.error_outline, size: 28, color: Colors.orange),
-            title: Text("Please login again"),
-          ),
-        ).show(context);
-        Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
-      }
-    }
-  }
-
+  //     if (shouldSkipLogin && mounted) {
+  //       // If auto-login successful, show brief feedback
+  //       DelightToastBar(
+  //         snackbarDuration: Durations.short2,
+  //         animationDuration: Durations.short1,
+  //         builder: (context) => const ToastCard(
+  //           leading: Icon(Icons.check_circle, size: 28, color: Colors.green),
+  //           title: Text(
+  //             "Auto login successful",
+  //             style: TextStyle(fontWeight: FontWeight.w500),
+  //           ),
+  //         ),
+  //       ).show(context);
+  //       Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
+  //     }
+  //   } catch (e) {
+  //     if (mounted) {
+  //       // Show error if auto-login fails
+  //       DelightToastBar(
+  //         snackbarDuration: Durations.short2,
+  //         animationDuration: Durations.short1,
+  //         builder: (context) => ToastCard(
+  //           leading: Icon(Icons.error_outline, size: 28, color: Colors.orange),
+  //           title: Text("Please login again"),
+  //         ),
+  //       ).show(context);
+  //       Future.delayed(Duration(seconds: 2), () => DelightToastBar.removeAll());
+  //     }
+  //   }
+  // }
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     final appData = Provider.of<AppDataProvider>(context);
+
     return appData.isLoading
         ? Center(child: CircularProgressIndicator())
         : CustomScaffold(
@@ -118,10 +120,11 @@ class _LogInState extends State<LogIn> {
                   enabled: isFormValid,
                   submitMessage: AppStrings.login,
                   onSubmit: () async {
-                    await Provider.of<AppDataProvider>(
-                      context,
-                      listen: false,
-                    ).login(_username, _password, context);
+                    // await Provider.of<AppDataProvider>(
+                    //   context,
+                    //   listen: false,
+                    // ).login(_username, _password, context);
+                    await _auth.login(_username, _password, context);
                   },
                   children: [
                     AppTextField(
@@ -160,6 +163,17 @@ class _LogInState extends State<LogIn> {
                       },
                     ),
                   ],
+                ),
+                IconButton(
+                  onPressed: () async {
+                    dynamic result = await _auth.signInAnon();
+                    if (result == null) {
+                      print("no user");
+                    } else {
+                      print(result);
+                    }
+                  },
+                  icon: Icon(Icons.person),
                 ),
                 TextButton(
                   onPressed: () => AppRouter.transition(

@@ -4,6 +4,7 @@ class Routes {
   static String signUp = '/Sign Up';
   static String logIn = '/login';
   static String home = '/home';
+  static String wrapper = '/wrapper';
 }
 
 class AppRouter {

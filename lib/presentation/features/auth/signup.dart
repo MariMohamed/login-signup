@@ -4,6 +4,7 @@ import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/data/user_model.dart';
+import 'package:login_signin/core/firebase/auth.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/core/validator/app_validator_types/confirmpassword_validator.dart';
 import 'package:login_signin/core/validator/app_validator_types/email_validator.dart';
@@ -36,7 +37,7 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-
+  final AuthService _auth = AuthService();
   // @override
   // void dispose() {
   //   _passwordController.dispose();
@@ -97,6 +98,7 @@ class _SignUpState extends State<SignUp> with AutomaticKeepAliveClientMixin {
                 context,
                 listen: false,
               ).addUser(user, context);
+              await _auth.createUser(_email, _password);
             },
             children: [
               Row(

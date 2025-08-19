@@ -5,6 +5,7 @@ import 'package:login_signin/core/app_colors.dart';
 import 'package:login_signin/core/app_router.dart';
 import 'package:login_signin/core/app_strings.dart';
 import 'package:login_signin/core/app_textStyles.dart';
+import 'package:login_signin/core/firebase/auth.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
 import 'package:login_signin/presentation/features/Home/widgets/home_navbar.dart';
 import 'package:login_signin/presentation/features/cartlist/view/app_cartpage.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final AuthService _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     final appData = Provider.of<AppDataProvider>(context);
@@ -95,6 +97,16 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(20.0),
               child: ListView(
                 children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        await _auth.importCarts(context);
+                      } catch (e) {
+                        // Handle error
+                      }
+                    },
+                    child: Text('Import carts'),
+                  ),
                   Padding(
                     padding: EdgeInsetsGeometry.only(top: 16, bottom: 16),
                     child: Container(

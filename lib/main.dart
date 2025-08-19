@@ -11,6 +11,7 @@ import 'package:login_signin/core/providers/app_themeSwitcher.dart';
 import 'package:login_signin/presentation/features/Home/view/homescreen.dart';
 import 'package:login_signin/presentation/features/auth/login.dart';
 import 'package:login_signin/presentation/features/auth/signup.dart';
+import 'package:login_signin/presentation/warpper.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -45,8 +46,9 @@ class MyApp extends StatelessWidget {
               '/Sign Up': (context) => SignUp(),
               '/login': (context) => LogIn(),
               '/home': (context) => HomeScreen(),
+              '/wrapper': (context) => Warpper(),
             },
-            initialRoute: Routes.logIn,
+            initialRoute: Routes.wrapper,
             title: 'Flutter Demo',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

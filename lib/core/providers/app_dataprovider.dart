@@ -6,6 +6,7 @@ import 'package:login_signin/core/connection/networkInfo.dart';
 import 'package:login_signin/core/data/cart_model.dart';
 import 'package:login_signin/core/data/products_model.dart';
 import 'package:login_signin/core/data/user_model.dart';
+import 'package:login_signin/core/firebase/auth.dart';
 import 'package:login_signin/core/hive/hive_setup.dart';
 import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/presentation/features/auth/controller/auth_controller.dart';
@@ -147,28 +148,30 @@ class AppDataProvider with ChangeNotifier {
   }
 
   Future<void> setCurrentUser(List<String> userData) async {
-    if (userData.length != 2) {
-      throw ArgumentError(
-        'userData must contain exactly 2 elements: [username, password]',
-      );
-    }
+    final AuthService _auth = AuthService();
+    final user = _auth.getUser();
+    // if (userData.length != 2) {
+    //   throw ArgumentError(
+    //     'userData must contain exactly 2 elements: [username, password]',
+    //   );
+    // }
 
-    try {
-      final username = userData.first;
-      final password = userData.last;
+    // try {
+    //   final username = userData.first;
+    //   final password = userData.last;
 
-      final matchingUser = _users.firstWhere(
-        (user) => user.username == username && user.password == password,
-        orElse: () => throw Exception('Invalid credentials'),
-      );
+    //   final matchingUser = _users.firstWhere(
+    //     (user) => user.username == username && user.password == password,
+    //     orElse: () => throw Exception('Invalid credentials'),
+    //   );
 
-      _currentUser = matchingUser;
-      notifyListeners();
-    } catch (e) {
-      _currentUser = null;
-      notifyListeners();
-      rethrow;
-    }
+    //   _currentUser = matchingUser;
+    //   notifyListeners();
+    // } catch (e) {
+    //   _currentUser = null;
+    //   notifyListeners();
+    //   rethrow;
+    // }
   }
 
   Future<void> addcart(Cart cart, context) async {
