@@ -2,6 +2,7 @@ import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:login_signin/core/app_router.dart';
+import 'package:login_signin/core/di/di.dart';
 import 'package:login_signin/core/hive/hive_setup.dart';
 import 'package:login_signin/core/manager/shared_preferences_manager.dart';
 import 'package:login_signin/core/providers/app_dataprovider.dart';
@@ -16,10 +17,11 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await HiveSetup.init();
-  await SharedPreferencesManager.init();
-  await FastCachedImageConfig.init();
+  await setupLocator();
+  // await Firebase.initializeApp();
+  // await HiveSetup.init();
+  // await SharedPreferencesManager.init();
+  // await FastCachedImageConfig.init();
   runApp(const MyApp());
 }
 
